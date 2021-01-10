@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<maven.build.timestamp.format>yyyyMMdd-HHmmss</maven.build.timestamp.format>
 	</properties>
 
 	<dependencies>
@@ -36,11 +37,23 @@
 	</dependencies>
 
 	<build>
+		<finalName>${name}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+		     <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-jar-plugin</artifactId>
+	        <configuration>
+	          <archive>
+	            <manifestEntries>
+	            	<App-Version>AV - ${maven.build.timestamp}</App-Version>
+	            </manifestEntries>
+	          </archive>
+	        </configuration>
+	      </plugin>
 		</plugins>
 	</build>
 
