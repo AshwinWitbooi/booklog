@@ -5,9 +5,14 @@ pipeline {
         jdk 'JDK8'
     }
     stages {
-        stage('Build') {
+        stage('Clean Build') {
         	steps {
 	            bat 'mvn clean compile'
+	        }
+        }
+        stage('Test') {
+        	steps {
+	            bat 'mvn test'
 	        }
         }
     }
