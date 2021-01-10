@@ -6,7 +6,9 @@ pipeline {
     }
     stages {
         stage('Build') {
-           echo 'Building..'
+        	steps {
+	            bat 'clean compile'
+	        }
         }
     }
 }
