@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet id="1" author="ashtech">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="book"/>
+			</not>
+		</preConditions>
+		<createTable tableName="book">
+	          <column name="ID" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="TITLE" type="varchar(50)">
+             	<constraints nullable="false"/>
+            </column>
+            <column name="PUBLISHER" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PUBLISH_DATE" type="date">
+                <constraints nullable="false"/>
+            </column>	
+            <column name="CREATE_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>	
+            <column name="ISBN" type="varchar(17)">
+                <constraints nullable="false"/>
+            </column>	
+		</createTable>
+	</changeSet>
+	<changeSet id="4" author="ashtech">
+    	<createIndex indexName="IDX_ISBN"  
+	            schemaName="booklog"  
+	            tableName="book"   
+	            unique="true">  
+	        <column  name="ISBN"/>  
+    </createIndex> 		
+	</changeSet>
+
+</databaseChangeLog>

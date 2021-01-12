@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet id="2" author="author">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="author"/>
+			</not>
+		</preConditions>
+		<createTable tableName="author">
+	          <column name="ID" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="FIRST_NAME" type="varchar(50)">
+             	<constraints nullable="false"/>
+            </column>
+            <column name="LAST_NAME" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+    	    <column name="BOOK_ID" type="int" >
+                <constraints nullable="false"/>
+            </column>
+		</createTable>  
+	</changeSet>
+	<changeSet id="3" author="ashtech">
+	    <addForeignKeyConstraint  baseColumnNames="BOOK_ID"   
+            baseTableName="author"  
+            baseTableSchemaName="booklog"  
+            constraintName="FK_BOOK_ID"    
+            onDelete="CASCADE"  
+            onUpdate="RESTRICT"  
+            referencedColumnNames="ID"  
+            referencedTableName="book"  
+            referencedTableSchemaName="booklog" />
+	</changeSet>
+	
+</databaseChangeLog>
