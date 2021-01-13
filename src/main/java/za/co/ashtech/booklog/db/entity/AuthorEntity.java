@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name="Author.findAll", query="SELECT a FROM Author a")
-public class Author implements Serializable {
+public class AuthorEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -23,9 +23,9 @@ public class Author implements Serializable {
 
 	//bi-directional many-to-one association to Book
 	@ManyToOne
-	private Book book;
+	private BookEntity book;
 
-	public Author() {
+	public AuthorEntity() {
 	}
 
 	public int getId() {
@@ -52,11 +52,11 @@ public class Author implements Serializable {
 		this.lastname = lastname;
 	}
 
-	public Book getBook() {
+	public BookEntity getBook() {
 		return this.book;
 	}
 
-	public void setBook(Book book) {
+	public void setBook(BookEntity book) {
 		this.book = book;
 	}
 

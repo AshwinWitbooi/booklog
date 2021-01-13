@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import za.co.ashtech.booklog.db.entity.Author;
-import za.co.ashtech.booklog.db.entity.Book;
+import za.co.ashtech.booklog.db.entity.AuthorEntity;
+import za.co.ashtech.booklog.db.entity.BookEntity;
 import za.co.ashtech.booklog.utility.TestDataUtil;
 
 @SpringBootTest
@@ -28,15 +28,15 @@ public class BookLogDaoTest {
 	@Test
 	public void persistBook() {
 		
-		Book book = new Book();
+		BookEntity book = new BookEntity();
 		book.setCreateDate(new Date());
 		book.setIsbn(TestDataUtil.getIsbn());
 		book.setPublishDate(new Date());
 		book.setPublisher("Ashtech Publishing");
 		book.setTitle("Be your own hero");
-		book.setAuthors(new ArrayList<Author>());
+		book.setAuthors(new ArrayList<AuthorEntity>());
 				
-		Author author = new Author();
+		AuthorEntity author = new AuthorEntity();
 		author.setBook(book);
 		author.setFirstname("Ashwin");
 		author.setLastname("Scholtz");
