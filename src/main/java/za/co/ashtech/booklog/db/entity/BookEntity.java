@@ -11,7 +11,8 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Book.findAll", query="SELECT b FROM Book b")
+@Table(name = "Book")
+@NamedQuery(name="BookEntity.findAll", query="SELECT b FROM BookEntity b")
 public class BookEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -34,7 +35,7 @@ public class BookEntity implements Serializable {
 	private String title;
 
 	//bi-directional many-to-one association to Author
-	@OneToMany(mappedBy="book")
+	@OneToMany(mappedBy="book",cascade = CascadeType.ALL)
 	private List<AuthorEntity> authors;
 
 	public BookEntity() {
