@@ -23,10 +23,9 @@ pipeline {
 	            bat 'docker ps -a'
 	        }
         }
-		stage('Stop Container') {
+		stage('Create Image') {
         	steps {
-	            bat 'docker stop ${APP}'
-				bat 'exit 0'
+	            bat 'docker run -p 8000:8000 ${APP}'
 	        }
         }
     }
