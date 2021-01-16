@@ -1,5 +1,8 @@
 pipeline {
 	agent any
+	environment {
+        APP = 'booklog'
+    }
     tools {
         maven 'Maven_3.6.3'
         jdk 'JDK8'
@@ -18,6 +21,11 @@ pipeline {
 		stage('List Container') {
         	steps {
 	            bat 'docker ps -a'
+	        }
+        }
+		stage('Stop Container') {
+        	steps {
+	            bat 'docker stop ${APP}'
 	        }
         }
     }
