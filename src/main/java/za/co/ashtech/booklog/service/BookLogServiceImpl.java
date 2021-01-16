@@ -28,30 +28,32 @@ public class BookLogServiceImpl implements BookLogService {
 	public void createBook(Book book) throws BookLogApiException{
 		logger.info("Create Book");
 		
-		BookEntity bookEntity = new BookEntity();
-		bookEntity.setCreateDate(new Date());
-		bookEntity.setIsbn(book.getISBN());
-		bookEntity.setPublishDate(book.getPublishDate());
-		bookEntity.setPublishDate(new Date());
-		bookEntity.setPublisher(book.getPublisher());
-		bookEntity.setTitle(book.getTitle());
-		bookEntity.setAuthors(new ArrayList<AuthorEntity>());
+		throw new NullPointerException("Test");
 		
-		for(Author a: book.getAuthors()) {
-			AuthorEntity authorEntity = new AuthorEntity();
-			authorEntity.setBook(bookEntity);
-			authorEntity.setFirstname(a.getFirstname());
-			authorEntity.setLastname(a.getLastname());
-			bookEntity.getAuthors().add(authorEntity);
-		}
-		
-		try {
-			dao.persistBook(bookEntity);
-			logger.debug("After persisting book");
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw new BookLogApiException(CONSTANTS.ERC001, CONSTANTS.ERC001_DESC);
-		}
+//		BookEntity bookEntity = new BookEntity();
+//		bookEntity.setCreateDate(new Date());
+//		bookEntity.setIsbn(book.getISBN());
+//		bookEntity.setPublishDate(book.getPublishDate());
+//		bookEntity.setPublishDate(new Date());
+//		bookEntity.setPublisher(book.getPublisher());
+//		bookEntity.setTitle(book.getTitle());
+//		bookEntity.setAuthors(new ArrayList<AuthorEntity>());
+//		
+//		for(Author a: book.getAuthors()) {
+//			AuthorEntity authorEntity = new AuthorEntity();
+//			authorEntity.setBook(bookEntity);
+//			authorEntity.setFirstname(a.getFirstname());
+//			authorEntity.setLastname(a.getLastname());
+//			bookEntity.getAuthors().add(authorEntity);
+//		}
+//		
+//		try {
+//			dao.persistBook(bookEntity);
+//			logger.debug("After persisting book");
+//		} catch (Exception e) {
+//			logger.error(e.getMessage(), e);
+//			throw new BookLogApiException(CONSTANTS.ERC001, CONSTANTS.ERC001_DESC);
+//		}
 
 	}
 

@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import za.co.ashtech.booklog.db.entity.AuthorEntity;
 import za.co.ashtech.booklog.db.entity.BookEntity;
+import za.co.ashtech.booklog.db.entity.TxLogEntity;
 import za.co.ashtech.booklog.utility.TestDataUtil;
 
 @SpringBootTest
@@ -25,7 +26,7 @@ public class BookLogDaoTest {
 		assertNotNull(dao);
 	}
 	
-	@Test
+//	@Test
 	public void persistBook() {
 		
 		BookEntity book = new BookEntity();
@@ -46,6 +47,17 @@ public class BookLogDaoTest {
 
 	}
 	
-	
+	@Test
+	public void persistTxLog() {
+		
+		TxLogEntity txLogEntity = new TxLogEntity();
+		txLogEntity.setAction("ADD");
+		txLogEntity.setActionDate(new Date());
+		txLogEntity.setActionResult("S");
+		txLogEntity.setUsername("ash@ashtech.co.za");
+		
+		dao.persistTx(txLogEntity);
+
+	}
 
 }
