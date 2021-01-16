@@ -1,10 +1,13 @@
 package za.co.ashtech.booklog.service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Date;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import ch.qos.logback.classic.Logger;
@@ -50,7 +53,10 @@ public class BookLogServiceImpl implements BookLogService {
 			logger.debug("After persisting book");
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			throw new BookLogApiException(CONSTANTS.ERC001, CONSTANTS.ERC001_DESC);
+			if(e instanceof DataIntegrityViolationException) {
+				throw new BookLogApiException(CONSTANTS.ERC004, CONSTANTS.ERC004_DESC, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			throw new BookLogApiException(CONSTANTS.ERC001, CONSTANTS.ERC001_DESC, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
