@@ -1,16 +1,24 @@
 package za.co.ashtech.booklog.util;
 
+import org.springframework.http.HttpStatus;
+
+import za.co.ashtech.booklog.model.BookLogApiError;
+
 public class BookLogApiException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 	
 	private String errorCode;
 	private String description;
+	private BookLogApiError error;
+	private HttpStatus httpStatus;
 	
-	public BookLogApiException(String errorCode, String description) {
+	public BookLogApiException(String errorCode, String description,HttpStatus httpStatus) {
 		super();
 		this.errorCode = errorCode;
 		this.description = description;
+		this.httpStatus = httpStatus;		
+		this.error = new BookLogApiError(errorCode, description);
 	}
 
 	public String getErrorCode() {
@@ -29,4 +37,11 @@ public class BookLogApiException extends Exception {
 		this.description = description;
 	}
 
+	public BookLogApiError getError() {
+		return error;
+	}
+
+	public HttpStatus getHttpStatus() {
+		return httpStatus;
+	}
 }
