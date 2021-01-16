@@ -25,7 +25,7 @@ pipeline {
         }
 		stage('Create Image') {
         	steps {
-	            bat 'docker build -t ${APP} .'
+	            bat 'docker build -t ${APP}:latest .'
 	        }
         }
     }
