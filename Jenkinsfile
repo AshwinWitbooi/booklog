@@ -10,9 +10,14 @@ pipeline {
 	            bat 'mvn clean compile'
 	        }
         }
-        stage('Test') {
+        stage('List Images') {
         	steps {
-	            bat 'mvn test'
+	            bat 'docker images'
+	        }
+        }
+		stage('List Container') {
+        	steps {
+	            bat 'docker ps -a'
 	        }
         }
     }
