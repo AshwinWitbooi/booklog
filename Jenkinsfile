@@ -25,7 +25,7 @@ pipeline {
         }
 		stage('Create Image') {
         	steps {
-	            bat 'docker run -p 8000:8000 ${APP}'
+	            bat 'docker build -t booklog:latest .'
 	        }
         }
     }
