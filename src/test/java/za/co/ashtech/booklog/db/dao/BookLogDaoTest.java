@@ -26,7 +26,7 @@ public class BookLogDaoTest {
 		assertNotNull(dao);
 	}
 	
-//	@Test
+	@Test
 	public void persistBook() {
 		
 		BookEntity book = new BookEntity();
