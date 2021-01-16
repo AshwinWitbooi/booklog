@@ -7,5 +7,6 @@
     
     <include file="db/book-changelog.xml"/>
     <include file="db/author-changelog.xml"/>
+    <include file="db/tx_log-changelog.xml"/>
     
 </databaseChangeLog>
