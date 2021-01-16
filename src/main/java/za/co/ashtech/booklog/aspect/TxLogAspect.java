@@ -61,6 +61,8 @@ public class TxLogAspect {
 		logEntity.setUsername("ash@ashtech.co.za");
 		
 		dao.persistTx(logEntity);
+		
+		throw ex;
     }
 	
 	private String getAction(String methodSignature){
