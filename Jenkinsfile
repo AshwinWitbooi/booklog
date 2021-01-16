@@ -10,22 +10,23 @@ pipeline {
     stages {
         stage('Clean Build') {
         	steps {
-	            sh 'mvn clean compile'
+	            bat 'mvn clean compile'
 	        }
         }
         stage('List Images') {
         	steps {
-	            sh 'docker images'
+	            bat 'docker images'
 	        }
         }
 		stage('List Container') {
         	steps {
-	            sh 'docker ps -a'
+	            bat 'docker ps -a'
 	        }
         }
 		stage('Stop Container') {
         	steps {
-	            sh 'docker stop ${APP}'
+	            bat 'docker stop ${APP}'
+				bat 'Exit 0'
 	        }
         }
     }
