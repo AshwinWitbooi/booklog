@@ -33,6 +33,11 @@ pipeline {
 	            bat 'docker rm %APP% || exit 0'
 	        }
         }
+		stage('Remove Image') {
+        	steps {
+	            bat 'docker rmi %APP% || exit 0'
+	        }
+        }
 		stage('Build Image') {
         	steps {
 	            bat 'docker build -t %APP% .'
