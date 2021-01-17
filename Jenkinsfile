@@ -27,6 +27,16 @@ pipeline {
         	steps {
 	            bat 'docker stop %APP% || exit 0'
 	        }
+        }		
+		stage('Remove Container') {
+        	steps {
+	            bat 'docker rm %APP% || exit 0'
+	        }
+        }
+		stage('Build Image') {
+        	steps {
+	            bat 'docker build -t %APP%
+	        }
         }
     }
 }
