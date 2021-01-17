@@ -8,7 +8,7 @@ pipeline {
         jdk 'JDK8'
     }
     stages {
-        stage('Clean Build') {
+        /*stage('Clean Build') {
         	steps {
 	            bat 'mvn clean compile'
 	        }
@@ -22,10 +22,10 @@ pipeline {
         	steps {
 	            bat 'docker ps -a'
 	        }
-        }
-		stage('Create Image') {
+        }*/
+		stage('Stop Container') {
         	steps {
-	            bat 'docker build -t booklog:latest .'
+	            bat 'echo ${APP}'
 	        }
         }
     }
