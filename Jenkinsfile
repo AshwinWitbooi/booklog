@@ -13,6 +13,11 @@ pipeline {
 	            bat 'mvn clean compile'
 	        }
         }
+		stage('Package') {
+        	steps {
+	            bat 'mvn package -DskipTests=true'
+	        }
+        }
         stage('List Images') {
         	steps {
 	            bat 'docker images'
@@ -41,6 +46,11 @@ pipeline {
 		stage('Build Image') {
         	steps {
 	            bat 'docker build -t %APP% .'
+	        }
+        }
+		stage('Run Container') {
+        	steps {
+	            bat 'docker run -p 8080:8080 -t %APP% .'
 	        }
         }
     }
