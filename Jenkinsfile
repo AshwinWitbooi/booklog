@@ -25,7 +25,7 @@ pipeline {
         }
 		stage('Stop Container') {
         	steps {
-	            bat 'docker stop %APP%'
+	            bat 'docker stop %APP% || exit 0'
 	        }
         }
     }
