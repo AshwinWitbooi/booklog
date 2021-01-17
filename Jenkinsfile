@@ -35,7 +35,7 @@ pipeline {
         }
 		stage('Build Image') {
         	steps {
-	            bat 'docker build -t %APP%
+	            bat 'docker build -t %APP%'
 	        }
         }
     }
