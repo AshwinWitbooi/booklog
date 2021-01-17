@@ -25,7 +25,7 @@ pipeline {
         }*/
 		stage('Stop Container') {
         	steps {
-	            bat 'echo ${APP}'
+	            bat 'echo %APP%'
 	        }
         }
     }
