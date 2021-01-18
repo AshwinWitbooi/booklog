@@ -13,6 +13,11 @@ pipeline {
 	            bat 'mvn clean compile'
 	        }
         }
+		stage('Tesy') {
+        	steps {
+	            bat 'mvn test'
+	        }
+        }
 		stage('Package') {
         	steps {
 	            bat 'mvn package -DskipTests=true'
@@ -50,7 +55,7 @@ pipeline {
         }
 		stage('Run Container') {
         	steps {
-	            bat 'docker run -p 8080:8080 -t %APP% .'
+	            bat 'docker run -p 8080:8080 -t %APP%'
 	        }
         }
     }
