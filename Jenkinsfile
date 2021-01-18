@@ -13,7 +13,7 @@ pipeline {
 	            bat 'mvn clean compile'
 	        }
         }
-		stage('Tesy') {
+		stage('Test') {
         	steps {
 	            bat 'mvn test'
 	        }
