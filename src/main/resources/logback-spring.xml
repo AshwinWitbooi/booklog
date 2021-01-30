@@ -25,7 +25,7 @@
 			<rollingPolicy
 				class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 				<!-- rollover daily and when the file reaches 10 MegaBytes -->
-				<fileNamePattern>${APP_NAME}_%d{yyyy-MM-dd_HH}.%i.log
+				<fileNamePattern>${DEV_LOGS}/${APP_NAME}_%d{yyyy-MM-dd_HH}.%i.log
 				</fileNamePattern>
 				<timeBasedFileNamingAndTriggeringPolicy
 					class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -58,7 +58,7 @@
 			<rollingPolicy
 				class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 				<!-- rollover daily and when the file reaches 10 MegaBytes -->
-				<fileNamePattern>${APP_NAME}_%d{yyyy-MM-dd_HH}.%i.log
+				<fileNamePattern>${PROD_LOGS}/${APP_NAME}_%d{yyyy-MM-dd_HH}.%i.log
 				</fileNamePattern>
 				<timeBasedFileNamingAndTriggeringPolicy
 					class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
