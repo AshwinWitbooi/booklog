@@ -2,6 +2,7 @@ pipeline {
 	agent any
 	environment {
         APP = 'booklog'
+		DB_HOST = '192.168.1.66'
     }
     tools {
         maven 'Maven_3.6.3'
@@ -15,7 +16,7 @@ pipeline {
         }
 		stage('Test') {
         	steps {
-	            bat 'mvn test'
+	            bat 'mvn -Dtest=BookLogIntegrationTest test'
 	        }
         }
 		stage('Package') {
@@ -55,7 +56,7 @@ pipeline {
         }
 		stage('Run Container') {
         	steps {
-	            bat 'docker run -e DB_HOST=192.168.1.66 -v C:/Users/Ashwin/dev_tools/app_logs/prod:/var/app_logs/booklog -d --name %APP%  -p 8080:8080 -t %APP%'
+	            bat 'docker run -e DB_HOST=%DB_HOST% -v C:/Users/Ashwin/dev_tools/app_logs/prod:/var/app_logs/booklog -d --name %APP%  -p 8080:8080 -t %APP%'
 	        }
         }
     }
