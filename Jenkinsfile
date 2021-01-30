@@ -55,7 +55,7 @@ pipeline {
         }
 		stage('Run Container') {
         	steps {
-	            bat 'docker run -p 8080:8080 -t %APP%'
+	            bat 'docker run -e DB_HOST=192.168.1.66 -v C:/Users/Ashwin/dev_tools/app_logs/prod:/var/app_logs/booklog -d --name %APP%  -p 8080:8080 -t %APP%'
 	        }
         }
     }
