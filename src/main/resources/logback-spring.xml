@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<property name="DEV_LOGS" value="C:/Users/Ashwin/dev_tools/app_logs/dev" />
+	<property name="PROD_LOGS" value="/var/app_logs/booklog" />
+	<property name="APP_NAME" value="booklog" />
+
+	 <springProfile name="local | dev">
+		<appender name="Console"
+			class="ch.qos.logback.core.ConsoleAppender">
+			<layout class="ch.qos.logback.classic.PatternLayout">
+				<Pattern>
+					%black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable
+				</Pattern>
+			</layout>
+		</appender>
+	
+		<appender name="Dev_RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${DEV_LOGS}/${APP_NAME}.log</file>
+			<encoder
+				class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+				<Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+			</encoder>
+	
+			<rollingPolicy
+				class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<!-- rollover daily and when the file reaches 10 MegaBytes -->
+				<fileNamePattern>${APP_NAME}_%d{yyyy-MM-dd_HH}.%i.log
+				</fileNamePattern>
+				<timeBasedFileNamingAndTriggeringPolicy
+					class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+					<maxFileSize>10MB</maxFileSize>
+				</timeBasedFileNamingAndTriggeringPolicy>
+			</rollingPolicy>
+		</appender>
+	
+		<!-- LOG everything at INFO level -->
+		<root level="info">
+			<appender-ref ref="Dev_RollingFile" />
+			<appender-ref ref="Console" />
+		</root>
+	
+		<!-- LOG "za.co.ashtech.booklog*" at TRACE level -->
+		<logger name="za.co.ashtech.booklog" level="trace" additivity="false">
+		<appender-ref ref="Dev_RollingFile" />
+		<appender-ref ref="Console" />
+		</logger>	 
+	 </springProfile>
+	 
+	 <springProfile name="prod">
+		<appender name="Prod_RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${PROD_LOGS}/${APP_NAME}.log</file>
+			<encoder
+				class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+				<Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+			</encoder>
+	
+			<rollingPolicy
+				class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<!-- rollover daily and when the file reaches 10 MegaBytes -->
+				<fileNamePattern>${APP_NAME}_%d{yyyy-MM-dd_HH}.%i.log
+				</fileNamePattern>
+				<timeBasedFileNamingAndTriggeringPolicy
+					class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+					<maxFileSize>10MB</maxFileSize>
+				</timeBasedFileNamingAndTriggeringPolicy>
+			</rollingPolicy>
+		</appender>
+	
+		<!-- LOG everything at INFO level -->
+		<root level="info">
+			<appender-ref ref="Prod_RollingFile" />
+		</root>
+	
+		<!-- LOG "za.co.ashtech.booklog*" at TRACE level -->
+		<logger name="za.co.ashtech.booklog" level="info" additivity="false">
+			<appender-ref ref="Prod_RollingFile" />
+		</logger>	 
+	 </springProfile>
+
+
+</configuration>
