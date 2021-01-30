@@ -1,6 +1,5 @@
 package za.co.ashtech.booklog.service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Date;
 

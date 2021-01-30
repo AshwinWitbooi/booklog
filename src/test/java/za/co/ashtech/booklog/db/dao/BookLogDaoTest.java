@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +21,7 @@ public class BookLogDaoTest {
 	
 	@Autowired
 	private BookLogDao dao;
+	private String isbn = TestDataUtil.getIsbn();
 	
 	@BeforeEach
 	public void validate() {
@@ -27,11 +29,12 @@ public class BookLogDaoTest {
 	}
 	
 	@Test
+	@Order(1) 
 	public void persistBook() {
 		
 		BookEntity book = new BookEntity();
 		book.setCreateDate(new Date());
-		book.setIsbn(TestDataUtil.getIsbn());
+		book.setIsbn(isbn);
 		book.setPublishDate(new Date());
 		book.setPublisher("Ashtech Publishing");
 		book.setTitle("Be your own hero");
@@ -59,5 +62,19 @@ public class BookLogDaoTest {
 		dao.persistTx(txLogEntity);
 
 	}
+	
+	@Test
+	@Order(2) 
+	public void updateBook() {
+		
+		BookEntity record = dao.getBook("117-55-567237-3");
+		
+		assertNotNull(record);
+		
+		record.setTitle("Updated Title");
+		
+		dao.updateBook(record);
+	}
+
 
 }
