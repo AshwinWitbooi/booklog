@@ -70,6 +70,8 @@ public class TxLogAspect {
 		switch(methodSignature) {
 		  case "createBook":
 		    return "ADD";
+		  case "updateBook":
+			    return "UPD";
 		  default:
 		   return "ANO";
 		}
