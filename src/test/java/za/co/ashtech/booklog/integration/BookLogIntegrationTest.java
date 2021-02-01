@@ -4,9 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -15,8 +21,11 @@ import org.springframework.boot.web.server.LocalServerPort;
 
 import za.co.ashtech.booklog.model.Author;
 import za.co.ashtech.booklog.model.Book;
+import za.co.ashtech.booklog.model.Editing;
+import za.co.ashtech.booklog.model.Editing.ActionEnum;
 import za.co.ashtech.booklog.utility.TestDataUtil;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class BookLogIntegrationTest {
 	
@@ -27,6 +36,13 @@ public class BookLogIntegrationTest {
 	@Autowired
 	private TestRestTemplate restTemplate;
 	
+	private static String isbn =null;
+	
+	@BeforeAll
+	public static void setUp() {
+		isbn = TestDataUtil.getIsbn();
+	}
+	
 	@BeforeEach
 	public void validate() {
 		assertNotNull(port);
@@ -34,6 +50,7 @@ public class BookLogIntegrationTest {
 	}
 	
 	@Test
+	@Order(1)
 	public void createBookTest() throws Exception {
 		
 		Author author = new Author();
@@ -43,14 +60,33 @@ public class BookLogIntegrationTest {
 		Book request = new Book();
 		request.setAuthors(new ArrayList<>());
 		request.getAuthors().add(author);
-		request.setISBN(TestDataUtil.getIsbn());
+		request.setISBN(isbn);
 		request.setPublishDate(new Date());
 		request.setPublisher("Ashtech Publishing Co");
 		request.setTitle("Your life your terms");
 		
 		String url = host+port+"/booklog/v1/book";
 		
-		this.restTemplate.postForObject(host+port+"/booklog/v1/book", request, Void.class);
+		this.restTemplate.postForObject(url, request, Void.class);
 	}
+	
+	@Test
+	@Order(2)
+	public void updateBookTest() throws Exception {
+		Editing editing = new Editing();
+		editing.action(ActionEnum.EAF);
+		editing.setNewFirstname("Update");
+		editing.setOldFirstname("Ashwin");
+		
+		Map<String,String> uriVariables = new HashMap<>();
+		uriVariables.put("isbn", isbn);
+		
+		String url = host+port+"/booklog/v1/book/{isbn}";
+		
+		this.restTemplate.postForObject(url, editing, Void.class,uriVariables);
+
+
+	}
+
 
 }
