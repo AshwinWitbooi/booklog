@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,10 +17,13 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import za.co.ashtech.booklog.model.Book;
+import za.co.ashtech.booklog.model.Editing;
 import za.co.ashtech.booklog.service.BookLogService;
 import za.co.ashtech.booklog.util.BookLogApiException;
+import za.co.ashtech.booklog.util.BookLogUtil;
+import za.co.ashtech.booklog.util.CONSTANTS;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-01-13T22:22:42.952Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-02-01T20:11:16.872Z[GMT]")
 @RestController
 public class BooklogApiController implements BooklogApi {
 
@@ -38,11 +42,22 @@ public class BooklogApiController implements BooklogApi {
         this.request = request;
     }
 
-    public ResponseEntity<Void> addInventory(@Parameter(in = ParameterIn.DEFAULT, description = "Create book in catalogue", schema=@Schema()) @Valid @RequestBody Book body) throws BookLogApiException{
-        
+    public ResponseEntity<Void> createBook(@Parameter(in = ParameterIn.DEFAULT, description = "Create book in catalogue", schema=@Schema()) @Valid @RequestBody Book body) throws BookLogApiException{
+    	/* Validate value format */
+    	BookLogUtil.validateJsonField(CONSTANTS.ISBN_PATTERN, body.getISBN(), "ISBN");
+    	
         service.createBook(body);
         
         return new ResponseEntity<Void>(HttpStatus.CREATED);
+    }
+
+    public ResponseEntity<Void> editBook(@Parameter(in = ParameterIn.PATH, description = "Unique book identifier", required=true, schema=@Schema()) @PathVariable("isbn") String isbn,@Parameter(in = ParameterIn.DEFAULT, description = "Update book in catalogue", schema=@Schema()) @Valid @RequestBody Editing body) throws BookLogApiException{
+    	/* Validate value format */
+    	BookLogUtil.validateJsonField(CONSTANTS.ISBN_PATTERN, isbn, "ISBN");
+    	
+    	service.updateBook(body, isbn);
+
+        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
 }

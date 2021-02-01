@@ -8,6 +8,7 @@ package za.co.ashtech.booklog.controller;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,12 +20,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import za.co.ashtech.booklog.model.Book;
+import za.co.ashtech.booklog.model.Editing;
 import za.co.ashtech.booklog.util.BookLogApiException;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-01-13T22:22:42.952Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-02-01T20:11:16.872Z[GMT]")
 public interface BooklogApi {
 
-    @Operation(summary = "adds an inventory item", description = "Adds an item to the system", tags={ "admins" })
+    @Operation(summary = "create book", description = "Create book on system system", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "201", description = "book created"),
         
@@ -38,7 +40,24 @@ public interface BooklogApi {
     @RequestMapping(value = "/v1/book",
         consumes = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Void> addInventory(@Parameter(in = ParameterIn.DEFAULT, description = "Create book in catalogue", schema=@Schema()) @Valid @RequestBody Book body) throws BookLogApiException;
+    ResponseEntity<Void> createBook(@Parameter(in = ParameterIn.DEFAULT, description = "Create book in catalogue", schema=@Schema()) @Valid @RequestBody Book body) throws BookLogApiException;
+
+
+    @Operation(summary = "edit book", description = "Edit book on system system", tags={  })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "book edited"),
+        
+        @ApiResponse(responseCode = "400", description = "invalid input, object invalid"),
+        
+        @ApiResponse(responseCode = "401", description = "authentication failed"),
+        
+        @ApiResponse(responseCode = "409", description = "an existing item already exists"),
+        
+        @ApiResponse(responseCode = "500", description = "error processing request") })
+    @RequestMapping(value = "/v1/book/{isbn}",
+        consumes = { "application/json" }, 
+        method = RequestMethod.POST)
+    ResponseEntity<Void> editBook(@Parameter(in = ParameterIn.PATH, description = "Unique book identifier", required=true, schema=@Schema()) @PathVariable("isbn") String isbn, @Parameter(in = ParameterIn.DEFAULT, description = "Create book in catalogue", schema=@Schema()) @Valid @RequestBody Editing body)throws BookLogApiException;
 
 }
 
