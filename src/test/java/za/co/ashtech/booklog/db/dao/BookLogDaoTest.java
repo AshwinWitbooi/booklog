@@ -5,9 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -15,13 +17,20 @@ import za.co.ashtech.booklog.db.entity.AuthorEntity;
 import za.co.ashtech.booklog.db.entity.BookEntity;
 import za.co.ashtech.booklog.db.entity.TxLogEntity;
 import za.co.ashtech.booklog.utility.TestDataUtil;
+import org.junit.jupiter.api.MethodOrderer;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest
 public class BookLogDaoTest {
 	
 	@Autowired
 	private BookLogDao dao;
-	private String isbn = TestDataUtil.getIsbn();
+	private static String isbn =null;
+	
+	@BeforeAll
+	public static void setUp() {
+		isbn = TestDataUtil.getIsbn();
+	}
 	
 	@BeforeEach
 	public void validate() {
@@ -30,7 +39,7 @@ public class BookLogDaoTest {
 	
 	@Test
 	@Order(1) 
-	public void persistBook() {
+	public void persistBook() {		
 		
 		BookEntity book = new BookEntity();
 		book.setCreateDate(new Date());
@@ -51,6 +60,7 @@ public class BookLogDaoTest {
 	}
 	
 	@Test
+	@Order(3)
 	public void persistTxLog() {
 		
 		TxLogEntity txLogEntity = new TxLogEntity();
@@ -67,7 +77,7 @@ public class BookLogDaoTest {
 	@Order(2) 
 	public void updateBook() {
 		
-		BookEntity record = dao.getBook("117-55-567237-3");
+		BookEntity record = dao.getBook(isbn);
 		
 		assertNotNull(record);
 		
