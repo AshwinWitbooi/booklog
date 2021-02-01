@@ -2,6 +2,7 @@ package za.co.ashtech.booklog.db.dao;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -90,6 +91,9 @@ public class BookLogDaoImpl implements BookLogDao {
 			query.setParameter("isbn", isbn);
 			
 			record =  query.getSingleResult();
+			
+			//initialize lazy load
+			Hibernate.initialize(record.getAuthors());
 
 		} catch (Exception e) {
 			throw e;
