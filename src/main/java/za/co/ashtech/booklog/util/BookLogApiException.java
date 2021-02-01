@@ -14,7 +14,7 @@ public class BookLogApiException extends Exception {
 	private HttpStatus httpStatus;
 	
 	public BookLogApiException(String errorCode, String description,HttpStatus httpStatus) {
-		super();
+		super(description);
 		this.errorCode = errorCode;
 		this.description = description;
 		this.httpStatus = httpStatus;		
