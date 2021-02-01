@@ -57,7 +57,7 @@ public class BooklogApiController implements BooklogApi {
     	
     	service.updateBook(body, isbn);
 
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
 }
