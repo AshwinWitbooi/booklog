@@ -206,4 +206,16 @@ public class BookLogServiceImpl implements BookLogService {
 
 	}
 
+	@Override
+	public void deleteBook(String isbn) throws BookLogApiException {
+
+		try {
+			BookEntity bookEntity = dao.getBook(isbn);
+			dao.deleteBook(bookEntity);
+		} catch (EmptyResultDataAccessException e) {
+			throw new BookLogApiException(CONSTANTS.ERC007, "ISBN invalid", HttpStatus.BAD_REQUEST);
+		}
+
+	}
+
 }

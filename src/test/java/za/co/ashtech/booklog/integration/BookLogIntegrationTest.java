@@ -81,9 +81,23 @@ public class BookLogIntegrationTest {
 		Map<String,String> uriVariables = new HashMap<>();
 		uriVariables.put("isbn", isbn);
 		
-		String url = host+port+"/booklog/v1/book/{isbn}";
+		String url = host+port+"/booklog/v1/book/update/{isbn}";
 		
 		this.restTemplate.postForObject(url, editing, Void.class,uriVariables);
+
+
+	}
+	
+	@Test
+	@Order(3)
+	public void deleteBookTest() throws Exception {
+		
+		Map<String,String> uriVariables = new HashMap<>();
+		uriVariables.put("isbn", isbn);
+		
+		String url = host+port+"/booklog/v1/book/delete/{isbn}";
+		
+		this.restTemplate.delete(url);
 
 
 	}

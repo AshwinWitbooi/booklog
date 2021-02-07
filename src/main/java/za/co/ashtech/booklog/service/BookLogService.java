@@ -8,5 +8,6 @@ public interface BookLogService {
 	
 	public void createBook(Book book) throws BookLogApiException;
 	public void updateBook(Editing editing, String isbn) throws BookLogApiException;
+	public void deleteBook(String isbn) throws BookLogApiException;
 
 }

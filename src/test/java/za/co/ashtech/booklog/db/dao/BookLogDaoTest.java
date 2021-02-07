@@ -86,5 +86,17 @@ public class BookLogDaoTest {
 		dao.updateBook(record);
 	}
 
+	@Test
+	@Order(4) 
+	public void deleteBook() {
+		
+		BookEntity record = dao.getBook(isbn);
+		
+		assertNotNull(record);
+		
+		record.setTitle("Updated Title");
+		
+		dao.deleteBook(record);
+	}
 
 }

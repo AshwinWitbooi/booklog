@@ -59,5 +59,12 @@ public class BooklogApiController implements BooklogApi {
 
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
+    
+    public ResponseEntity<Void> deleteBook(@Parameter(in = ParameterIn.PATH, description = "Unique book identifier", required=true, schema=@Schema()) @PathVariable("isbn") String isbn) throws BookLogApiException {
+    	/* Validate value format */
+    	BookLogUtil.validateJsonField(CONSTANTS.ISBN_PATTERN, isbn, "ISBN");
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
 
 }

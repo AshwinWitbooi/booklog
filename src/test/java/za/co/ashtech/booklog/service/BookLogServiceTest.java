@@ -141,6 +141,12 @@ public class BookLogServiceTest {
 		service.updateBook(editing, isbn);
 
 	}
+	
+	@Test
+	@Order(8) 
+	public void deleteBook() throws BookLogApiException{
+		service.deleteBook(isbn);
+	}
 
 
 }

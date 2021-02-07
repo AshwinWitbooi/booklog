@@ -72,6 +72,8 @@ public class TxLogAspect {
 		    return "ADD";
 		  case "updateBook":
 			    return "UPD";
+		  case "deleteBook":
+			    return "DEL";
 		  default:
 		   return "ANO";
 		}

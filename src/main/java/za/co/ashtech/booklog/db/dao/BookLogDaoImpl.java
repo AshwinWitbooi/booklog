@@ -104,4 +104,22 @@ public class BookLogDaoImpl implements BookLogDao {
 		return record;
 	}
 
+	@Override
+	public void deleteBook(BookEntity book) {
+		logger.debug("updateBook");
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+
+		try {
+			session.delete(book);
+			tx.commit();
+
+		} catch (Exception e) {
+			tx.rollback();
+			throw e;
+		} finally {			
+			session.close();
+		}
+	}
+
 }

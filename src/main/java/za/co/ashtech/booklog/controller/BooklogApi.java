@@ -54,10 +54,25 @@ public interface BooklogApi {
         @ApiResponse(responseCode = "409", description = "an existing item already exists"),
         
         @ApiResponse(responseCode = "500", description = "error processing request") })
-    @RequestMapping(value = "/v1/book/{isbn}",
+    @RequestMapping(value = "/v1/book/update/{isbn}",
         consumes = { "application/json" }, 
         method = RequestMethod.POST)
     ResponseEntity<Void> editBook(@Parameter(in = ParameterIn.PATH, description = "Unique book identifier", required=true, schema=@Schema()) @PathVariable("isbn") String isbn, @Parameter(in = ParameterIn.DEFAULT, description = "Create book in catalogue", schema=@Schema()) @Valid @RequestBody Editing body)throws BookLogApiException;
+
+    @Operation(summary = "delete book", description = "Delete book on system system", tags={  })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "book deleted"),
+        
+        @ApiResponse(responseCode = "400", description = "invalid input, object invalid"),
+        
+        @ApiResponse(responseCode = "401", description = "authentication failed"),
+        
+        @ApiResponse(responseCode = "404", description = "item not found."),
+        
+        @ApiResponse(responseCode = "500", description = "error processing request") })
+    @RequestMapping(value = "/v1/book/delete/{isbn}",
+        method = RequestMethod.DELETE)
+    ResponseEntity<Void> deleteBook(@Parameter(in = ParameterIn.PATH, description = "Unique book identifier", required=true, schema=@Schema()) @PathVariable("isbn") String isbn)throws BookLogApiException;
 
 }
 
