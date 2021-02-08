@@ -97,7 +97,7 @@ public class BookLogIntegrationTest {
 		
 		String url = host+port+"/booklog/v1/book/delete/{isbn}";
 		
-		this.restTemplate.delete(url);
+		this.restTemplate.delete(url,uriVariables);
 
 
 	}
