@@ -83,7 +83,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>${name}</finalName>
+		<finalName>${project.name}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -104,8 +104,13 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-						<argLine>-Djasypt.encryptor.password=booklog</argLine>
+					<argLine>-Djasypt.encryptor.password=booklog</argLine>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.7.0.1746</version>
 			</plugin>
 		</plugins>
 	</build>
