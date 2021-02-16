@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import ch.qos.logback.classic.Logger;
 import za.co.ashtech.booklog.db.entity.BookEntity;
 import za.co.ashtech.booklog.db.entity.TxLogEntity;
+import za.co.ashtech.booklog.util.CONSTANTS;
 
 @Repository
 @Transactional
@@ -25,7 +26,7 @@ public class BookLogDaoImpl implements BookLogDao {
 	private SessionFactory sessionFactory;
 
 	public void persistBook(BookEntity book) {
-		logger.debug("persistBook");
+		logger.debug(CONSTANTS.APPINFOMARKER,"persistBook");
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 
@@ -44,7 +45,7 @@ public class BookLogDaoImpl implements BookLogDao {
 
 	@Override
 	public void persistTx(TxLogEntity tx) {
-		logger.debug("persistTx");
+		logger.debug(CONSTANTS.APPINFOMARKER,"persistTx");
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
 
@@ -63,7 +64,7 @@ public class BookLogDaoImpl implements BookLogDao {
 
 	@Override
 	public void updateBook(BookEntity book) {
-		logger.debug("updateBook");
+		logger.debug(CONSTANTS.APPINFOMARKER,"updateBook");
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 
@@ -82,7 +83,7 @@ public class BookLogDaoImpl implements BookLogDao {
 
 	@Override
 	public BookEntity getBook(String isbn) {
-		logger.debug("getBook");
+		logger.debug(CONSTANTS.APPINFOMARKER,"getBook");
 		Session session = sessionFactory.openSession();
 		BookEntity record = null;
 
@@ -106,7 +107,7 @@ public class BookLogDaoImpl implements BookLogDao {
 
 	@Override
 	public void deleteBook(BookEntity book) {
-		logger.debug("updateBook");
+		logger.debug(CONSTANTS.APPINFOMARKER,"deleteBook");
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 

@@ -52,9 +52,9 @@ public class BookLogControllerAdvice {
 		ObjectMapper mapper  = new ObjectMapper();
 		
 		try {
-			logger.info("RESPONSE: "+mapper.writerWithDefaultPrettyPrinter().writeValueAsString(error));
+			logger.info(CONSTANTS.APPINFOMARKER,"RESPONSE: "+mapper.writerWithDefaultPrettyPrinter().writeValueAsString(error));
 		} catch (JsonProcessingException e) {
-			logger.error(e.getMessage(), e);
+			logger.error(CONSTANTS.APPINFOMARKER,e.getMessage(), e);
 		}
 	}
 }

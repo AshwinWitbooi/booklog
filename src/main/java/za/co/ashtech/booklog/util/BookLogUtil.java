@@ -11,10 +11,13 @@ public class BookLogUtil {
 
 	private static final Logger logger =  (Logger) LoggerFactory.getLogger(BookLogUtil.class); 
 	
+	/* private constructor class shoould never be initialized */
+	private BookLogUtil() {}
+	
 	public static void validateJsonField(String pattern, String val,String field) throws BookLogApiException{
 		
 		if(Pattern.matches(pattern, val)) {
-			logger.info(field+" value "+val+" is valid");
+			logger.info(CONSTANTS.APPINFOMARKER,field+" value "+val+" is valid");
 	      }else {
 	    	  throw new BookLogApiException(CONSTANTS.ERC005, field+" value "+val+" is invalid.", HttpStatus.BAD_REQUEST);
 	      }

@@ -30,7 +30,7 @@ public class BookLogServiceImpl implements BookLogService {
 
 	@Override
 	public void createBook(Book book) throws BookLogApiException {
-		logger.info("Create Book");
+		logger.info(CONSTANTS.APPINFOMARKER,"Create Book");
 
 		BookEntity bookEntity = new BookEntity();
 		bookEntity.setCreateDate(new Date());
@@ -51,9 +51,9 @@ public class BookLogServiceImpl implements BookLogService {
 
 		try {
 			dao.persistBook(bookEntity);
-			logger.debug("After persisting book");
+			logger.debug(CONSTANTS.APPINFOMARKER,"After persisting book");
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			logger.error(CONSTANTS.APPINFOMARKER,e.getMessage(), e);
 			if (e instanceof DataIntegrityViolationException) {
 				throw new BookLogApiException(CONSTANTS.ERC004, CONSTANTS.ERC004_DESC,
 						HttpStatus.INTERNAL_SERVER_ERROR);
@@ -116,7 +116,7 @@ public class BookLogServiceImpl implements BookLogService {
 						break;
 					case "EAL":
 							
-						if(editing.getNewLastname() == null || editing.getOldLastname() == null || editing.getOldLastname() == null) {
+						if(editing.getNewLastname() == null || editing.getOldFirstname() == null || editing.getOldLastname() == null) {
 							
 							throw new BookLogApiException(CONSTANTS.ERC007, "Lastname change data invalid.", HttpStatus.BAD_REQUEST);
 						}else {

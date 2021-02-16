@@ -1,7 +1,14 @@
 package za.co.ashtech.booklog.util;
 
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
+
 public class CONSTANTS {
 	
+	
+	/* private constructor class shoould never be initialized */
+	private CONSTANTS() {}
+
 	/* Error code and descriptions */
 	public final static String ERC001 = "ERC001";
 	public final static String ERC001_DESC = "Error creating book.";
@@ -13,10 +20,12 @@ public class CONSTANTS {
 	public static final String ERC006 = "ERC006";
 	public static final String ERC006_DESC = "Invalid action.";
 	public static final String ERC007 = null;
+	public static final Marker APPINFOMARKER = MarkerFactory.getMarker("APPINFO");
 	
 	/* Field value format pattern */
 	public static final String ISBN_PATTERN = "^\\d{3}\\-\\d{2}\\-\\d{6}\\-\\d{1}$";
 
+	
 	
 
 

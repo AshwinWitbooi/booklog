@@ -1,5 +1,6 @@
 package za.co.ashtech.booklog.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import za.co.ashtech.booklog.db.dao.BookLogDao;
 import za.co.ashtech.booklog.model.Author;
 import za.co.ashtech.booklog.model.Book;
 import za.co.ashtech.booklog.model.Editing;
@@ -27,6 +29,8 @@ public class BookLogServiceTest {
 	
 	@Autowired
 	private BookLogService service;
+	@Autowired
+	private BookLogDao dao;
 	
 	private static String isbn =null;
 	
@@ -55,8 +59,10 @@ public class BookLogServiceTest {
 		book.setPublishDate(new Date());
 		book.setPublisher("Ashtech Publishing Co");
 		book.setTitle("Your life your terms");
-		
+	
 		service.createBook(book);
+		
+		assertNotNull(dao.getBook(isbn));
 
 	}
 	
@@ -70,12 +76,13 @@ public class BookLogServiceTest {
 		
 		service.updateBook(editing, isbn);
 		
-		editing.action(ActionEnum.EAF);
+		assertEquals("Update", dao.getBook(isbn).getAuthors().get(0).getFirstname());	
+		
 		editing.setNewFirstname("Ashwin");
 		editing.setOldFirstname("Update");
+		
 		service.updateBook(editing, isbn);
-		
-		
+
 	}
 	
 	@Test
@@ -89,11 +96,7 @@ public class BookLogServiceTest {
 		
 		service.updateBook(editing, isbn);
 		
-		editing.setNewLastname("Scholtz");
-		editing.setOldLastname("Update");
-		editing.setOldFirstname("Ashwin");
-		
-		service.updateBook(editing, isbn);
+		assertEquals("Update", dao.getBook(isbn).getAuthors().get(0).getLastname());
 	}
 	
 	@Test
@@ -104,6 +107,8 @@ public class BookLogServiceTest {
 		editing.setNewTitle("Update");
 		
 		service.updateBook(editing, isbn);
+		
+		assertEquals("Update", dao.getBook(isbn).getTitle());
 
 	}
 
@@ -117,6 +122,8 @@ public class BookLogServiceTest {
 		editing.setNewLastname("New");
 
 		service.updateBook(editing, isbn);
+		
+		assertEquals("New", dao.getBook(isbn).getAuthors().get(1).getFirstname());
 
 	}
 	
@@ -128,22 +135,13 @@ public class BookLogServiceTest {
 		editing.setNewPublisher("New Publisher");
 		
 		service.updateBook(editing, isbn);
+		
+		assertEquals("New Publisher", dao.getBook(isbn).getPublisher());
 
 	}
 	
 	@Test
 	@Order(7) 
-	public void editPublisherDate() throws BookLogApiException{
-		Editing editing = new Editing();
-		editing.setAction(ActionEnum.EPD);
-		editing.setNewPublishDate(new Date());
-
-		service.updateBook(editing, isbn);
-
-	}
-	
-	@Test
-	@Order(8) 
 	public void deleteBook() throws BookLogApiException{
 		service.deleteBook(isbn);
 	}

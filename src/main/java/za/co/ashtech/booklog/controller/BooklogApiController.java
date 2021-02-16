@@ -34,7 +34,10 @@ public class BooklogApiController implements BooklogApi {
     private final HttpServletRequest request;
     
     @Autowired
-    private BookLogService service;
+    private BookLogService bookLogService;
+    
+    @Autowired
+    private za.co.ashtech.booklog.service.MyTester myTester;
 
     @org.springframework.beans.factory.annotation.Autowired
     public BooklogApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -45,8 +48,8 @@ public class BooklogApiController implements BooklogApi {
     public ResponseEntity<Void> createBook(@Parameter(in = ParameterIn.DEFAULT, description = "Create book in catalogue", schema=@Schema()) @Valid @RequestBody Book body) throws BookLogApiException{
     	/* Validate value format */
     	BookLogUtil.validateJsonField(CONSTANTS.ISBN_PATTERN, body.getISBN(), "ISBN");
-    	
-        service.createBook(body);
+    	myTester.name();
+        bookLogService.createBook(body);
         
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
@@ -55,7 +58,7 @@ public class BooklogApiController implements BooklogApi {
     	/* Validate value format */
     	BookLogUtil.validateJsonField(CONSTANTS.ISBN_PATTERN, isbn, "ISBN");
     	
-    	service.updateBook(body, isbn);
+    	bookLogService.updateBook(body, isbn);
 
         return new ResponseEntity<Void>(HttpStatus.OK);
     }

@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import ch.qos.logback.classic.Logger;
 import za.co.ashtech.booklog.db.dao.BookLogDao;
 import za.co.ashtech.booklog.db.entity.TxLogEntity;
+import za.co.ashtech.booklog.util.CONSTANTS;
 
 @Aspect
 @Configuration
@@ -29,7 +30,7 @@ public class TxLogAspect {
 	
 	@Around("aroundServiceLayerPC()")
 	public Object aroundServiceLayer(ProceedingJoinPoint joinPoint) throws Throwable {
-		logger.debug("SERVICE LAYER AROUND ADVICE");
+		logger.debug(CONSTANTS.APPINFOMARKER,"SERVICE LAYER AROUND ADVICE");
 		
 		Object response = null;
 		
@@ -52,7 +53,7 @@ public class TxLogAspect {
 	
 	@AfterThrowing (pointcut = "aroundServiceLayerPC()", throwing = "ex")
     public void logAfterThrowingAllMethods(Exception ex) throws Throwable {
-        System.out.println("****LoggingAspect.logAfterThrowingAllMethods() " + ex);
+		logger.info(CONSTANTS.APPINFOMARKER,"****LoggingAspect.logAfterThrowingAllMethods() " + ex);
         
 		TxLogEntity logEntity = new TxLogEntity();
 		logEntity.setAction(this.getAction(this.signature));

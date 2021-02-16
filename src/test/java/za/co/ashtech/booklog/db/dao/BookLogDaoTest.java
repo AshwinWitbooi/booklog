@@ -1,5 +1,7 @@
 package za.co.ashtech.booklog.db.dao;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
@@ -56,47 +58,55 @@ public class BookLogDaoTest {
 		book.getAuthors().add(author);
 		
 		dao.persistBook(book);
+		
+		assertNotEquals(0,book.getId());
 
 	}
 	
-	@Test
-	@Order(3)
-	public void persistTxLog() {
-		
-		TxLogEntity txLogEntity = new TxLogEntity();
-		txLogEntity.setAction("ADD");
-		txLogEntity.setActionDate(new Date());
-		txLogEntity.setActionResult("S");
-		txLogEntity.setUsername("ash@ashtech.co.za");
-		
-		dao.persistTx(txLogEntity);
-
-	}
-	
-	@Test
-	@Order(2) 
-	public void updateBook() {
-		
-		BookEntity record = dao.getBook(isbn);
-		
-		assertNotNull(record);
-		
-		record.setTitle("Updated Title");
-		
-		dao.updateBook(record);
-	}
-
-	@Test
-	@Order(4) 
-	public void deleteBook() {
-		
-		BookEntity record = dao.getBook(isbn);
-		
-		assertNotNull(record);
-		
-		record.setTitle("Updated Title");
-		
-		dao.deleteBook(record);
-	}
+//	@Test
+//	@Order(3)
+//	public void persistTxLog() {
+//		
+//		TxLogEntity txLogEntity = new TxLogEntity();
+//		txLogEntity.setAction("ADD");
+//		txLogEntity.setActionDate(new Date());
+//		txLogEntity.setActionResult("S");
+//		txLogEntity.setUsername("ash@ashtech.co.za");
+//		
+//		dao.persistTx(txLogEntity);
+//		
+//		assertNotEquals(0,txLogEntity.getId());
+//
+//	}
+//	
+//	@Test
+//	@Order(2) 
+//	public void updateBook() {
+//		
+//		BookEntity record = dao.getBook(isbn);
+//		
+//		assertNotNull(record);
+//		
+//		record.setTitle("Updated Title");
+//		
+//		dao.updateBook(record);
+//		
+//		assertEquals("Updated Title", dao.getBook(isbn).getTitle());;
+//	}
+//
+//	@Test
+//	@Order(4) 
+//	public void deleteBook() {
+//		
+//		BookEntity record = dao.getBook(isbn);
+//		
+//		assertNotNull(record);
+//		
+//		record.setTitle("Updated Title");
+//		
+//		dao.deleteBook(record);
+//		
+//		assertEquals(null, dao.getBook(isbn));
+//	}
 
 }

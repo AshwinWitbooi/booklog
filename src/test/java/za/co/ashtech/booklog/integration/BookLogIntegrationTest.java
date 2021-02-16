@@ -1,5 +1,6 @@
 package za.co.ashtech.booklog.integration;
 
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class BookLogIntegrationTest {
 	
 	@BeforeEach
 	public void validate() {
-		assertNotNull(port);
+		assertNotEquals(0, port);
 		assertNotNull(restTemplate);
 	}
 	
@@ -70,37 +71,37 @@ public class BookLogIntegrationTest {
 		this.restTemplate.postForObject(url, request, Void.class);
 	}
 	
-	@Test
-	@Order(2)
-	public void updateBookTest() throws Exception {
-		Editing editing = new Editing();
-		editing.action(ActionEnum.EAF);
-		editing.setNewFirstname("Update");
-		editing.setOldFirstname("Ashwin");
-		
-		Map<String,String> uriVariables = new HashMap<>();
-		uriVariables.put("isbn", isbn);
-		
-		String url = host+port+"/booklog/v1/book/update/{isbn}";
-		
-		this.restTemplate.postForObject(url, editing, Void.class,uriVariables);
-
-
-	}
-	
-	@Test
-	@Order(3)
-	public void deleteBookTest() throws Exception {
-		
-		Map<String,String> uriVariables = new HashMap<>();
-		uriVariables.put("isbn", isbn);
-		
-		String url = host+port+"/booklog/v1/book/delete/{isbn}";
-		
-		this.restTemplate.delete(url,uriVariables);
-
-
-	}
+//	@Test
+//	@Order(2)
+//	public void updateBookTest() throws Exception {
+//		Editing editing = new Editing();
+//		editing.action(ActionEnum.EAF);
+//		editing.setNewFirstname("Update");
+//		editing.setOldFirstname("Ashwin");
+//		
+//		Map<String,String> uriVariables = new HashMap<>();
+//		uriVariables.put("isbn", isbn);
+//		
+//		String url = host+port+"/booklog/v1/book/update/{isbn}";
+//		
+//		this.restTemplate.postForObject(url, editing, Void.class,uriVariables);
+//
+//
+//	}
+//	
+//	@Test
+//	@Order(3)
+//	public void deleteBookTest() throws Exception {
+//		
+//		Map<String,String> uriVariables = new HashMap<>();
+//		uriVariables.put("isbn", isbn);
+//		
+//		String url = host+port+"/booklog/v1/book/delete/{isbn}";
+//		
+//		this.restTemplate.delete(url,uriVariables);
+//
+//
+//	}
 
 
 }
