@@ -36,6 +36,7 @@ public class BookLogDaoImpl implements BookLogDao {
 			tx.commit();
 
 		} catch (Exception e) {
+			tx.rollback();
 			throw e;
 		} finally {
 			session.close();
@@ -87,7 +88,7 @@ public class BookLogDaoImpl implements BookLogDao {
 		Session session = sessionFactory.openSession();
 		BookEntity record = null;
 
-		try {
+//		try {
 			Query<BookEntity> query =  session.createQuery("from BookEntity where isbn=:isbn", BookEntity.class);
 			query.setParameter("isbn", isbn);
 			
@@ -95,12 +96,14 @@ public class BookLogDaoImpl implements BookLogDao {
 			
 			//initialize lazy load
 			Hibernate.initialize(record.getAuthors());
-
-		} catch (Exception e) {
-			throw e;
-		} finally {
+			
 			session.close();
-		}	
+
+//		} catch (Exception e) {
+//			throw e;
+//		} finally {
+//			
+//		}	
 		
 		return record;
 	}

@@ -39,7 +39,7 @@ public class BookLogServiceImpl implements BookLogService {
 		bookEntity.setCreateDate(new Date());
 		bookEntity.setPublisher(book.getPublisher());
 		bookEntity.setTitle(book.getTitle());
-		bookEntity.setAuthors(new ArrayList<AuthorEntity>());
+		bookEntity.setAuthors(new ArrayList<>());
 
 		for (Author a : book.getAuthors()) {
 			AuthorEntity authorEntity = new AuthorEntity();
@@ -52,7 +52,11 @@ public class BookLogServiceImpl implements BookLogService {
 		try {
 			dao.persistBook(bookEntity);
 			logger.debug(CONSTANTS.APPINFOMARKER,"After persisting book");
-		} catch (Exception e) {
+		} catch (DataIntegrityViolationException e) {
+			logger.error(CONSTANTS.APPINFOMARKER,e.getMessage(), e);
+			throw new BookLogApiException(CONSTANTS.ERC004, CONSTANTS.ERC004_DESC,
+						HttpStatus.INTERNAL_SERVER_ERROR);
+		}catch (Exception e) {
 			logger.error(CONSTANTS.APPINFOMARKER,e.getMessage(), e);
 			if (e instanceof DataIntegrityViolationException) {
 				throw new BookLogApiException(CONSTANTS.ERC004, CONSTANTS.ERC004_DESC,
@@ -60,6 +64,7 @@ public class BookLogServiceImpl implements BookLogService {
 			}
 			throw new BookLogApiException(CONSTANTS.ERC001, CONSTANTS.ERC001_DESC, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+
 
 	}
 

@@ -1,5 +1,6 @@
 package za.co.ashtech.booklog.integration;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -20,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 
+import za.co.ashtech.booklog.db.dao.BookLogDao;
 import za.co.ashtech.booklog.model.Author;
 import za.co.ashtech.booklog.model.Book;
 import za.co.ashtech.booklog.model.Editing;
@@ -36,6 +38,8 @@ public class BookLogIntegrationTest {
 
 	@Autowired
 	private TestRestTemplate restTemplate;
+	@Autowired
+	private BookLogDao dao;
 	
 	private static String isbn =null;
 	
@@ -69,39 +73,41 @@ public class BookLogIntegrationTest {
 		String url = host+port+"/booklog/v1/book";
 		
 		this.restTemplate.postForObject(url, request, Void.class);
+		
+		assertNotNull(dao.getBook(isbn));
 	}
 	
-//	@Test
-//	@Order(2)
-//	public void updateBookTest() throws Exception {
-//		Editing editing = new Editing();
-//		editing.action(ActionEnum.EAF);
-//		editing.setNewFirstname("Update");
-//		editing.setOldFirstname("Ashwin");
-//		
-//		Map<String,String> uriVariables = new HashMap<>();
-//		uriVariables.put("isbn", isbn);
-//		
-//		String url = host+port+"/booklog/v1/book/update/{isbn}";
-//		
-//		this.restTemplate.postForObject(url, editing, Void.class,uriVariables);
-//
-//
-//	}
-//	
-//	@Test
-//	@Order(3)
-//	public void deleteBookTest() throws Exception {
-//		
-//		Map<String,String> uriVariables = new HashMap<>();
-//		uriVariables.put("isbn", isbn);
-//		
-//		String url = host+port+"/booklog/v1/book/delete/{isbn}";
-//		
-//		this.restTemplate.delete(url,uriVariables);
-//
-//
-//	}
+	@Test
+	@Order(2)
+	public void updateBookTest() throws Exception {
+		Editing editing = new Editing();
+		editing.action(ActionEnum.EAF);
+		editing.setNewFirstname("Update");
+		editing.setOldFirstname("Ashwin");
+		
+		Map<String,String> uriVariables = new HashMap<>();
+		uriVariables.put("isbn", isbn);
+		
+		String url = host+port+"/booklog/v1/book/update/{isbn}";
+		
+		this.restTemplate.postForObject(url, editing, Void.class,uriVariables);
+
+		assertEquals("Update", dao.getBook(isbn).getAuthors().get(0).getFirstname());
+	}
+	
+	@Test
+	@Order(3)
+	public void deleteBookTest() throws Exception {
+		
+		Map<String,String> uriVariables = new HashMap<>();
+		uriVariables.put("isbn", isbn);
+		
+		String url = host+port+"/booklog/v1/book/delete/{isbn}";
+		
+		this.restTemplate.delete(url,uriVariables);
+
+
+	}
 
 
 }
