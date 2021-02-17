@@ -30,7 +30,7 @@ import za.co.ashtech.booklog.utility.TestDataUtil;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class BookLogIntegrationTest {
+class BookLogIntegrationTest {
 	
 	@LocalServerPort
 	private int port;
@@ -44,19 +44,19 @@ public class BookLogIntegrationTest {
 	private static String isbn =null;
 	
 	@BeforeAll
-	public static void setUp() {
+	static void setUp() {
 		isbn = TestDataUtil.getIsbn();
 	}
 	
 	@BeforeEach
-	public void validate() {
+	void validate() {
 		assertNotEquals(0, port);
 		assertNotNull(restTemplate);
 	}
 	
 	@Test
 	@Order(1)
-	public void createBookTest() throws Exception {
+	void createBookTest() throws Exception {
 		
 		Author author = new Author();
 		author.setFirstname("Ashwin");
@@ -79,7 +79,7 @@ public class BookLogIntegrationTest {
 	
 	@Test
 	@Order(2)
-	public void updateBookTest() throws Exception {
+	void updateBookTest() throws Exception {
 		Editing editing = new Editing();
 		editing.action(ActionEnum.EAF);
 		editing.setNewFirstname("Update");
@@ -97,7 +97,7 @@ public class BookLogIntegrationTest {
 	
 	@Test
 	@Order(3)
-	public void deleteBookTest() throws Exception {
+	void deleteBookTest() throws Exception {
 		
 		Map<String,String> uriVariables = new HashMap<>();
 		uriVariables.put("isbn", isbn);

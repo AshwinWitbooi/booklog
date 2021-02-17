@@ -25,7 +25,7 @@ import za.co.ashtech.booklog.utility.TestDataUtil;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest
-public class BookLogServiceTest {
+class BookLogServiceTest {
 	
 	@Autowired
 	private BookLogService service;
@@ -35,18 +35,18 @@ public class BookLogServiceTest {
 	private static String isbn =null;
 	
 	@BeforeAll
-	public static void setUp() {
+	static void setUp() {
 		isbn = TestDataUtil.getIsbn();
 	}
 	
 	@BeforeEach
-	public void validate() {
+	void validate() {
 		assertNotNull(service);
 	}
 	
 	@Test
 	@Order(1) 
-	public void persistBook() throws BookLogApiException {
+	void persistBook() throws BookLogApiException {
 		
 		Author author = new Author();
 		author.setFirstname("Ashwin");
@@ -68,7 +68,7 @@ public class BookLogServiceTest {
 	
 	@Test
 	@Order(2) 
-	public void editAuthorFistname() throws BookLogApiException{
+	void editAuthorFistname() throws BookLogApiException{
 		Editing editing = new Editing();
 		editing.action(ActionEnum.EAF);
 		editing.setNewFirstname("Update");
@@ -87,7 +87,7 @@ public class BookLogServiceTest {
 	
 	@Test
 	@Order(3) 
-	public void editAuthorLastname() throws BookLogApiException{
+	void editAuthorLastname() throws BookLogApiException{
 		Editing editing = new Editing();
 		editing.action(ActionEnum.EAL);
 		editing.setNewLastname("Update");
@@ -101,7 +101,7 @@ public class BookLogServiceTest {
 	
 	@Test
 	@Order(4) 
-	public void editBookTitle() throws BookLogApiException{
+	void editBookTitle() throws BookLogApiException{
 		Editing editing = new Editing();
 		editing.setAction(ActionEnum.ET);
 		editing.setNewTitle("Update");
@@ -115,7 +115,7 @@ public class BookLogServiceTest {
 	
 	@Test
 	@Order(5) 
-	public void editAddAuthor() throws BookLogApiException{
+	void editAddAuthor() throws BookLogApiException{
 		Editing editing = new Editing();
 		editing.setAction(ActionEnum.AA);
 		editing.setNewFirstname("New");
@@ -129,7 +129,7 @@ public class BookLogServiceTest {
 	
 	@Test
 	@Order(6) 
-	public void editPublisher() throws BookLogApiException{
+	void editPublisher() throws BookLogApiException{
 		Editing editing = new Editing();
 		editing.setAction(ActionEnum.EP);
 		editing.setNewPublisher("New Publisher");
@@ -142,7 +142,7 @@ public class BookLogServiceTest {
 	
 	@Test
 	@Order(7) 
-	public void deleteBook() throws BookLogApiException{
+	void deleteBook() throws BookLogApiException{
 		service.deleteBook(isbn);
 	}
 

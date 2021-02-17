@@ -58,10 +58,6 @@ public class BookLogServiceImpl implements BookLogService {
 						HttpStatus.INTERNAL_SERVER_ERROR);
 		}catch (Exception e) {
 			logger.error(CONSTANTS.APPINFOMARKER,e.getMessage(), e);
-			if (e instanceof DataIntegrityViolationException) {
-				throw new BookLogApiException(CONSTANTS.ERC004, CONSTANTS.ERC004_DESC,
-						HttpStatus.INTERNAL_SERVER_ERROR);
-			}
 			throw new BookLogApiException(CONSTANTS.ERC001, CONSTANTS.ERC001_DESC, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 

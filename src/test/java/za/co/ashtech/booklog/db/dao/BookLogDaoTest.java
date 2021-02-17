@@ -23,7 +23,7 @@ import org.junit.jupiter.api.MethodOrderer;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest
-public class BookLogDaoTest {
+ class BookLogDaoTest {
 	
 	@Autowired
 	private BookLogDao dao;
@@ -35,13 +35,13 @@ public class BookLogDaoTest {
 	}
 	
 	@BeforeEach
-	public void validate() {
+	void validate() {
 		assertNotNull(dao);
 	}
 	
 	@Test
 	@Order(1) 
-	public void persistBook() {		
+	void persistBook() {		
 		
 		BookEntity book = new BookEntity();
 		book.setCreateDate(new Date());
@@ -63,50 +63,50 @@ public class BookLogDaoTest {
 
 	}
 	
-//	@Test
-//	@Order(3)
-//	public void persistTxLog() {
-//		
-//		TxLogEntity txLogEntity = new TxLogEntity();
-//		txLogEntity.setAction("ADD");
-//		txLogEntity.setActionDate(new Date());
-//		txLogEntity.setActionResult("S");
-//		txLogEntity.setUsername("ash@ashtech.co.za");
-//		
-//		dao.persistTx(txLogEntity);
-//		
-//		assertNotEquals(0,txLogEntity.getId());
-//
-//	}
-//	
-//	@Test
-//	@Order(2) 
-//	public void updateBook() {
-//		
-//		BookEntity record = dao.getBook(isbn);
-//		
-//		assertNotNull(record);
-//		
-//		record.setTitle("Updated Title");
-//		
-//		dao.updateBook(record);
-//		
-//		assertEquals("Updated Title", dao.getBook(isbn).getTitle());;
-//	}
-//
-//	@Test
-//	@Order(4) 
-//	public void deleteBook() {
-//		
-//		BookEntity record = dao.getBook(isbn);
-//		
-//		assertNotNull(record);
-//		
-//		record.setTitle("Updated Title");
-//		
-//		dao.deleteBook(record);
-//		
-//		assertEquals(null, dao.getBook(isbn));
-//	}
+	@Test
+	@Order(3)
+	void persistTxLog() {
+		
+		TxLogEntity txLogEntity = new TxLogEntity();
+		txLogEntity.setAction("ADD");
+		txLogEntity.setActionDate(new Date());
+		txLogEntity.setActionResult("S");
+		txLogEntity.setUsername("ash@ashtech.co.za");
+		
+		dao.persistTx(txLogEntity);
+		
+		assertNotEquals(0,txLogEntity.getId());
+
+	}
+	
+	@Test
+	@Order(2) 
+	void updateBook() {
+		
+		BookEntity record = dao.getBook(isbn);
+		
+		assertNotNull(record);
+		
+		record.setTitle("Updated Title");
+		
+		dao.updateBook(record);
+		
+		assertEquals("Updated Title", dao.getBook(isbn).getTitle());;
+	}
+
+	@Test
+	@Order(4) 
+	void deleteBook() {
+		
+		BookEntity record = dao.getBook(isbn);
+		
+		assertNotNull(record);
+		
+		record.setTitle("Updated Title");
+		
+		dao.deleteBook(record);
+		
+		assertEquals(null, dao.getBook(isbn));
+	}
 
 }
