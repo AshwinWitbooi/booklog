@@ -46,7 +46,7 @@ public class LoggingAspect {
 
 			if(httpMethod != null) {
 				if(httpMethod.equalsIgnoreCase("POST")) {
-					Object body = (Object) joinPoint.getArgs()[0];
+					Object body = joinPoint.getArgs()[0];
 					
 					logger.info(CONSTANTS.APPINFOMARKER,"REQUEST: "+objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(body));			
 				}
@@ -56,13 +56,12 @@ public class LoggingAspect {
 					logger.info(CONSTANTS.APPINFOMARKER,"RESPONSE: "+objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(response));			
 				}				
 			}
+			
+			response = joinPoint.proceed();	
 
-		} catch (JsonProcessingException e) {
+		} catch (JsonProcessingException | NullPointerException e) {
 			logger.error(CONSTANTS.APPINFOMARKER,e.getMessage());
-		}catch (NullPointerException e) {
-			logger.error(CONSTANTS.APPINFOMARKER,e.getMessage());
-		}
-		
+		}		
 		
 		
 		return response;
