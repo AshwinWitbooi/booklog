@@ -15,9 +15,11 @@ pipeline {
 	        }
         }
 		stage('SonarQube analysis') {
-			withSonarQubeEnv('SonarQubeScanner8.6.1') {
-			  bath 'mvn sonar:sonar -Dsonar.projectKey=booklog -Dsonar.host.url=http://localhost:9000 -Dsonar.login=b31f87e8252b7d9e579a2cae92908f3391c2704c'
-			} 
+			steps {
+				withSonarQubeEnv('SonarQubeScanner8.6.1') {
+				  bath 'mvn sonar:sonar -Dsonar.projectKey=booklog -Dsonar.host.url=http://localhost:9000 -Dsonar.login=b31f87e8252b7d9e579a2cae92908f3391c2704c'
+				} 
+			}
 		}
 		stage('Test') {
         	steps {
