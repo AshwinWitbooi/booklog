@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -73,6 +74,22 @@ public interface BooklogApi {
     @RequestMapping(value = "/v1/book/delete/{isbn}",
         method = RequestMethod.DELETE)
     ResponseEntity<Void> deleteBook(@Parameter(in = ParameterIn.PATH, description = "Unique book identifier", required=true, schema=@Schema()) @PathVariable("isbn") String isbn)throws BookLogApiException;
+
+    @Operation(summary = "get book", description = "Get book on system system", tags={  })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "book", content = @Content(schema = @Schema(implementation = Book.class))),
+        
+        @ApiResponse(responseCode = "400", description = "invalid input, object invalid"),
+        
+        @ApiResponse(responseCode = "401", description = "authentication failed"),
+        
+        @ApiResponse(responseCode = "404", description = "item not found."),
+        
+        @ApiResponse(responseCode = "500", description = "error processing request") })
+    @RequestMapping(value = "/v1/book/{isbn}",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<Book> getBook(@Parameter(in = ParameterIn.PATH, description = "Unique book identifier", required=true, schema=@Schema()) @PathVariable("isbn") String isbn)throws BookLogApiException;
 
 }
 

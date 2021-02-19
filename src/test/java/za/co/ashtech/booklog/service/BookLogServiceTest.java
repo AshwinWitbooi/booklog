@@ -67,7 +67,14 @@ class BookLogServiceTest {
 	}
 	
 	@Test
-	@Order(2) 
+	@Order(1) 
+	void getBook() throws BookLogApiException {
+		assertNotNull(service.getBook(isbn));
+	}
+
+	
+	@Test
+	@Order(3) 
 	void editAuthorFistname() throws BookLogApiException{
 		Editing editing = new Editing();
 		editing.action(ActionEnum.EAF);
@@ -86,7 +93,7 @@ class BookLogServiceTest {
 	}
 	
 	@Test
-	@Order(3) 
+	@Order(4) 
 	void editAuthorLastname() throws BookLogApiException{
 		Editing editing = new Editing();
 		editing.action(ActionEnum.EAL);
@@ -100,7 +107,7 @@ class BookLogServiceTest {
 	}
 	
 	@Test
-	@Order(4) 
+	@Order(5) 
 	void editBookTitle() throws BookLogApiException{
 		Editing editing = new Editing();
 		editing.setAction(ActionEnum.ET);
@@ -114,7 +121,7 @@ class BookLogServiceTest {
 
 	
 	@Test
-	@Order(5) 
+	@Order(6) 
 	void editAddAuthor() throws BookLogApiException{
 		Editing editing = new Editing();
 		editing.setAction(ActionEnum.AA);
@@ -128,7 +135,7 @@ class BookLogServiceTest {
 	}
 	
 	@Test
-	@Order(6) 
+	@Order(7) 
 	void editPublisher() throws BookLogApiException{
 		Editing editing = new Editing();
 		editing.setAction(ActionEnum.EP);
@@ -141,7 +148,7 @@ class BookLogServiceTest {
 	}
 	
 	@Test
-	@Order(7) 
+	@Order(8) 
 	void deleteBook() throws BookLogApiException{
 		service.deleteBook(isbn);
 	}

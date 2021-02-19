@@ -78,7 +78,20 @@ class BookLogIntegrationTest {
 	}
 	
 	@Test
-	@Order(2)
+	@Order(3)
+	void getBookTest() throws Exception {
+		
+		Map<String,String> uriVariables = new HashMap<>();
+		uriVariables.put("isbn", isbn);
+		
+		String url = host+port+"/booklog/v1/book/{isbn}";
+		
+		assertEquals(isbn,this.restTemplate.getForObject(url, Book.class,uriVariables).getISBN());
+		
+	}
+	
+	@Test
+	@Order(3)
 	void updateBookTest() throws Exception {
 		Editing editing = new Editing();
 		editing.action(ActionEnum.EAF);
@@ -96,7 +109,7 @@ class BookLogIntegrationTest {
 	}
 	
 	@Test
-	@Order(3)
+	@Order(4)
 	void deleteBookTest() throws Exception {
 		
 		Map<String,String> uriVariables = new HashMap<>();

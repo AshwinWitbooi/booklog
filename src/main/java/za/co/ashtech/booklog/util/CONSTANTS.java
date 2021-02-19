@@ -19,14 +19,11 @@ public class CONSTANTS {
 	public static final String ERC005 = "ERC005";
 	public static final String ERC006 = "ERC006";
 	public static final String ERC006_DESC = "Invalid action.";
-	public static final String ERC007 = null;
+	public static final String ERC007 = "ERC007";
+	public static final String INVALID_ISBN =  "ISBN invalid";
+	public static final String APIEC = "APIEC";
 	public static final Marker APPINFOMARKER = MarkerFactory.getMarker("APPINFO");
 	
 	/* Field value format pattern */
 	public static final String ISBN_PATTERN = "^\\d{3}\\-\\d{2}\\-\\d{6}\\-\\d{1}$";
-
-	
-	
-
-
 }

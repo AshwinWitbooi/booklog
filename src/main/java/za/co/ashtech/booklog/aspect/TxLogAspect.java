@@ -66,7 +66,7 @@ public class TxLogAspect {
 		throw ex;
     }
 	
-	private String getAction(String methodSignature){
+	String getAction(String methodSignature){
 		
 		switch(methodSignature) {
 		  case "createBook":
@@ -75,6 +75,8 @@ public class TxLogAspect {
 			    return "UPD";
 		  case "deleteBook":
 			    return "DEL";
+		  case "getBook":
+			    return "GET";
 		  default:
 		   return "ANO";
 		}

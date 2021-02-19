@@ -199,7 +199,9 @@ public class BookLogServiceImpl implements BookLogService {
 
 				
 			} catch (EmptyResultDataAccessException e) {
-				throw new BookLogApiException(CONSTANTS.ERC007, "ISBN invalid", HttpStatus.BAD_REQUEST);
+				throw new BookLogApiException(CONSTANTS.ERC007, CONSTANTS.INVALID_ISBN, HttpStatus.BAD_REQUEST);
+			}catch (Exception e) {
+				throw new BookLogApiException(CONSTANTS.APIEC, e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			
 		}		
@@ -214,9 +216,41 @@ public class BookLogServiceImpl implements BookLogService {
 			BookEntity bookEntity = dao.getBook(isbn);
 			dao.deleteBook(bookEntity);
 		} catch (EmptyResultDataAccessException e) {
-			throw new BookLogApiException(CONSTANTS.ERC007, "ISBN invalid", HttpStatus.BAD_REQUEST);
+			throw new BookLogApiException(CONSTANTS.ERC007,CONSTANTS.INVALID_ISBN, HttpStatus.BAD_REQUEST);
+		}catch (Exception e) {
+			throw new BookLogApiException(CONSTANTS.APIEC, e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
+	}
+
+	@Override
+	public Book getBook(String isbn) throws BookLogApiException {
+		Book book = null;
+		
+		
+		try {
+			BookEntity bookEntity = dao.getBook(isbn);
+			
+			book = new Book();
+			book.setAuthors(new ArrayList<>());
+			
+			for(AuthorEntity ae: bookEntity.getAuthors()) {
+				Author a = new Author();
+				a.setFirstname(ae.getFirstname());
+				a.setLastname(ae.getLastname());
+				book.getAuthors().add(a);
+			}
+			
+			book.setISBN(bookEntity.getIsbn());
+			book.setPublishDate(bookEntity.getPublishDate());
+			book.setPublisher(bookEntity.getPublisher());
+			book.setTitle(bookEntity.getTitle());
+			
+		} catch (EmptyResultDataAccessException e) {
+			throw new BookLogApiException(CONSTANTS.ERC007, CONSTANTS.INVALID_ISBN, HttpStatus.BAD_REQUEST);
+		}
+		
+		return book;
 	}
 
 }

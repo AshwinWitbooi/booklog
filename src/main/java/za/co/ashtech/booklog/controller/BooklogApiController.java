@@ -63,7 +63,19 @@ public class BooklogApiController implements BooklogApi {
     	/* Validate value format */
     	BookLogUtil.validateJsonField(CONSTANTS.ISBN_PATTERN, isbn, "ISBN");
 
+    	bookLogService.deleteBook(isbn);
+    	
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
+
+	@Override
+	public ResponseEntity<Book> getBook(String isbn) throws BookLogApiException {
+    	/* Validate value format */
+    	BookLogUtil.validateJsonField(CONSTANTS.ISBN_PATTERN, isbn, "ISBN");
+    	
+    	Book book = bookLogService.getBook(isbn);
+    	
+		return new ResponseEntity<Book>(book,HttpStatus.OK);
+	}
 
 }
