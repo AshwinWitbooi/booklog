@@ -1,5 +1,7 @@
 package za.co.ashtech.booklog.db.dao;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.hibernate.Hibernate;
@@ -95,7 +97,7 @@ public class BookLogDaoImpl implements BookLogDao {
 			record =  query.getSingleResult();
 			
 			//initialize lazy load
-			Hibernate.initialize(record.getAuthors());
+//			Hibernate.initialize(record.getAuthors());
 			
 			session.close();
 
@@ -124,6 +126,29 @@ public class BookLogDaoImpl implements BookLogDao {
 		} finally {			
 			session.close();
 		}
+	}
+
+	@Override
+	public List<BookEntity> getBooks() {
+		logger.debug(CONSTANTS.APPINFOMARKER,"getBook");
+		Session session = sessionFactory.openSession();
+		List<BookEntity> records = null;
+
+//		try {
+			Query<BookEntity> query =  session.createQuery("from BookEntity", BookEntity.class);
+			
+			records =  query.getResultList();
+			
+			session.close();
+
+//		} catch (Exception e) {
+//			throw e;
+//		} finally {
+//			
+//		}	
+		
+		return records;
+
 	}
 
 }

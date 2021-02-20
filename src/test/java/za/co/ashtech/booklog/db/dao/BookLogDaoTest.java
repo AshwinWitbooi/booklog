@@ -105,8 +105,12 @@ import org.junit.jupiter.api.MethodOrderer;
 		record.setTitle("Updated Title");
 		
 		dao.deleteBook(record);
-		
-		assertEquals(null, dao.getBook(isbn));
+	}
+	
+	@Test
+	@Order(5) 
+	void getBooks() {		
+		assertNotEquals(null, dao.getBooks());
 	}
 
 }

@@ -2,6 +2,10 @@ package za.co.ashtech.booklog.db.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +40,7 @@ public class BookEntity implements Serializable {
 
 	//bi-directional many-to-one association to Author
 	@OneToMany(mappedBy="book",cascade = CascadeType.ALL)
+	@Fetch(FetchMode.SUBSELECT)
 	private List<AuthorEntity> authors;
 
 	public BookEntity() {
