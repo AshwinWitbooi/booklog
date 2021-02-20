@@ -17,7 +17,7 @@ pipeline {
 		stage('SonarQube analysis') {
 			steps {
 				withSonarQubeEnv('SonarQube') {
-				  bath 'C:/Users/Ashwin/dev_tools/sonar-scanner-4.6.0.2311-windows/bin/sonar-scanner'
+				  bat 'C:/Users/Ashwin/dev_tools/sonar-scanner-4.6.0.2311-windows/bin/sonar-scanner'
 				} 
 			}
 		}
