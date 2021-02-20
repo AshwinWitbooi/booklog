@@ -1,4 +1,6 @@
 package za.co.ashtech.booklog.controller;
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -17,6 +19,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import za.co.ashtech.booklog.model.Book;
+import za.co.ashtech.booklog.model.Books;
 import za.co.ashtech.booklog.model.Editing;
 import za.co.ashtech.booklog.service.BookLogService;
 import za.co.ashtech.booklog.util.BookLogApiException;
@@ -77,5 +80,16 @@ public class BooklogApiController implements BooklogApi {
     	
 		return new ResponseEntity<Book>(book,HttpStatus.OK);
 	}
+	
+	
+    public ResponseEntity<Books> getBooks(@Parameter(in = ParameterIn.PATH, description = "Unique user identifier", required=true, schema=@Schema()) @PathVariable("username") String username) throws BookLogApiException {
+    	Books books=null;
+//    	BookLogUtil.validateJsonField(CONSTANTS.USERNAME, username, "Username");
+    	
+    	books=bookLogService.getBooks(username);
+
+        return new ResponseEntity<Books>(books,HttpStatus.OK);
+    }
+
 
 }

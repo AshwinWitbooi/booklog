@@ -77,6 +77,8 @@ public class TxLogAspect {
 			    return "DEL";
 		  case "getBook":
 			    return "GET";
+		  case "getBooks":
+			    return "GAB";
 		  default:
 		   return "ANO";
 		}

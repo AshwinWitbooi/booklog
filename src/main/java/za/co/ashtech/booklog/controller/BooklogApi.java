@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import za.co.ashtech.booklog.model.Book;
+import za.co.ashtech.booklog.model.Books;
 import za.co.ashtech.booklog.model.Editing;
 import za.co.ashtech.booklog.util.BookLogApiException;
 
@@ -90,6 +91,23 @@ public interface BooklogApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<Book> getBook(@Parameter(in = ParameterIn.PATH, description = "Unique book identifier", required=true, schema=@Schema()) @PathVariable("isbn") String isbn)throws BookLogApiException;
+    
+    @Operation(summary = "get books", description = "Get books on system system for a user", tags={  })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "book", content = @Content(schema = @Schema(implementation = Books.class))),
+        
+        @ApiResponse(responseCode = "400", description = "invalid input, object invalid"),
+        
+        @ApiResponse(responseCode = "401", description = "authentication failed"),
+        
+        @ApiResponse(responseCode = "404", description = "item not found."),
+        
+        @ApiResponse(responseCode = "500", description = "error processing request") })
+    @RequestMapping(value = "/v1/books/{username}",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<Books> getBooks(@Parameter(in = ParameterIn.PATH, description = "Unique user identifier", required=true, schema=@Schema()) @PathVariable("username") String username)throws BookLogApiException;
+
 
 }
 

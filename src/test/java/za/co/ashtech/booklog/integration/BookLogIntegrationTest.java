@@ -24,6 +24,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import za.co.ashtech.booklog.db.dao.BookLogDao;
 import za.co.ashtech.booklog.model.Author;
 import za.co.ashtech.booklog.model.Book;
+import za.co.ashtech.booklog.model.Books;
 import za.co.ashtech.booklog.model.Editing;
 import za.co.ashtech.booklog.model.Editing.ActionEnum;
 import za.co.ashtech.booklog.utility.TestDataUtil;
@@ -119,6 +120,19 @@ class BookLogIntegrationTest {
 		
 		this.restTemplate.delete(url,uriVariables);
 
+
+	}
+	
+	@Test
+	@Order(5)
+	void getBooksTest() throws Exception {
+		
+		Map<String,String> uriVariables = new HashMap<>();
+		uriVariables.put("username", "ashtech@test.co.za");
+		
+		String url = host+port+"/booklog/v1/books/{username}";
+		
+		assertNotNull(this.restTemplate.getForObject(url,Books.class,uriVariables));
 
 	}
 

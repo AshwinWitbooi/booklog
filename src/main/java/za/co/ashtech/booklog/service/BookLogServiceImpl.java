@@ -2,7 +2,6 @@ package za.co.ashtech.booklog.service;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import za.co.ashtech.booklog.db.entity.AuthorEntity;
 import za.co.ashtech.booklog.db.entity.BookEntity;
 import za.co.ashtech.booklog.model.Author;
 import za.co.ashtech.booklog.model.Book;
+import za.co.ashtech.booklog.model.Books;
 import za.co.ashtech.booklog.model.Editing;
 import za.co.ashtech.booklog.util.BookLogApiException;
 import za.co.ashtech.booklog.util.CONSTANTS;
@@ -255,10 +255,10 @@ public class BookLogServiceImpl implements BookLogService {
 	}
 
 	@Override
-	public List<Book> getBooks(String username) throws BookLogApiException {
-		List<Book> books = null;
-		
-		books = new ArrayList<>();
+	public Books getBooks(String username) throws BookLogApiException {
+		Books books = null;
+
+		books = new Books();
 		for(BookEntity be:dao.getBooks()) {
 			Book b = new Book();
 			b.setAuthors(new ArrayList<>());
