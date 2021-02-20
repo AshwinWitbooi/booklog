@@ -97,7 +97,7 @@ public class BookLogDaoImpl implements BookLogDao {
 			record =  query.getSingleResult();
 			
 			//initialize lazy load
-//			Hibernate.initialize(record.getAuthors());
+			Hibernate.initialize(record.getAuthors());
 			
 			session.close();
 
