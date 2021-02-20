@@ -16,8 +16,8 @@ pipeline {
         }
 		stage('SonarQube analysis') {
 			steps {
-				withSonarQubeEnv('SonarScanner') {
-				  bath 'mvn sonar:sonar -Dsonar.projectKey=booklog -Dsonar.host.url=http://localhost:9000 -Dsonar.login=b31f87e8252b7d9e579a2cae92908f3391c2704c'
+				withSonarQubeEnv('SonarQube') {
+				  bath 'C:/Users/Ashwin/dev_tools/sonar-scanner-4.6.0.2311-windows/bin/sonar-scanner'
 				} 
 			}
 		}
