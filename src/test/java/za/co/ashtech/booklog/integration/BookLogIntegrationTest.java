@@ -79,7 +79,7 @@ class BookLogIntegrationTest {
 	}
 	
 	@Test
-	@Order(3)
+	@Order(2)
 	void getBookTest() throws Exception {
 		
 		Map<String,String> uriVariables = new HashMap<>();
