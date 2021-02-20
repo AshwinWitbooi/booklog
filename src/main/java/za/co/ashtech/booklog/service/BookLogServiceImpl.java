@@ -2,6 +2,7 @@ package za.co.ashtech.booklog.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -251,6 +252,31 @@ public class BookLogServiceImpl implements BookLogService {
 		}
 		
 		return book;
+	}
+
+	@Override
+	public List<Book> getBooks(String username) throws BookLogApiException {
+		List<Book> books = null;
+		
+		books = new ArrayList<>();
+		for(BookEntity be:dao.getBooks()) {
+			Book b = new Book();
+			b.setAuthors(new ArrayList<>());
+			for(AuthorEntity ae:be.getAuthors()) {
+				Author a = new Author();
+				a.setFirstname(ae.getFirstname());
+				a.setLastname(ae.getLastname());
+				b.getAuthors().add(a);
+			}
+			b.setISBN(be.getIsbn());
+			b.setPublishDate(be.getPublishDate());
+			b.setPublisher(be.getPublisher());
+			b.setTitle(be.getTitle());
+			
+			books.add(b);
+		}
+		
+		return books;
 	}
 
 }

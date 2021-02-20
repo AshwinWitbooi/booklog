@@ -44,8 +44,8 @@ class BookLogServiceTest {
 		assertNotNull(service);
 	}
 	
-	@Test
-	@Order(1) 
+//	@Test
+//	@Order(1) 
 	void persistBook() throws BookLogApiException {
 		
 		Author author = new Author();
@@ -66,15 +66,15 @@ class BookLogServiceTest {
 
 	}
 	
-	@Test
-	@Order(1) 
+//	@Test
+//	@Order(1) 
 	void getBook() throws BookLogApiException {
 		assertNotNull(service.getBook(isbn));
 	}
 
 	
-	@Test
-	@Order(3) 
+//	@Test
+//	@Order(3) 
 	void editAuthorFistname() throws BookLogApiException{
 		Editing editing = new Editing();
 		editing.action(ActionEnum.EAF);
@@ -92,8 +92,8 @@ class BookLogServiceTest {
 
 	}
 	
-	@Test
-	@Order(4) 
+//	@Test
+//	@Order(4) 
 	void editAuthorLastname() throws BookLogApiException{
 		Editing editing = new Editing();
 		editing.action(ActionEnum.EAL);
@@ -106,8 +106,8 @@ class BookLogServiceTest {
 		assertEquals("Update", dao.getBook(isbn).getAuthors().get(0).getLastname());
 	}
 	
-	@Test
-	@Order(5) 
+//	@Test
+//	@Order(5) 
 	void editBookTitle() throws BookLogApiException{
 		Editing editing = new Editing();
 		editing.setAction(ActionEnum.ET);
@@ -120,8 +120,8 @@ class BookLogServiceTest {
 	}
 
 	
-	@Test
-	@Order(6) 
+//	@Test
+//	@Order(6) 
 	void editAddAuthor() throws BookLogApiException{
 		Editing editing = new Editing();
 		editing.setAction(ActionEnum.AA);
@@ -134,8 +134,8 @@ class BookLogServiceTest {
 
 	}
 	
-	@Test
-	@Order(7) 
+//	@Test
+//	@Order(7) 
 	void editPublisher() throws BookLogApiException{
 		Editing editing = new Editing();
 		editing.setAction(ActionEnum.EP);
@@ -147,11 +147,17 @@ class BookLogServiceTest {
 
 	}
 	
-	@Test
-	@Order(8) 
+//	@Test
+//	@Order(8) 
 	void deleteBook() throws BookLogApiException{
 		service.deleteBook(isbn);
 	}
 
+	@Test
+	@Order(9) 
+	void getBooks() throws BookLogApiException{
+		String username="ashtect@test.co.za";
+		assertNotNull(service.getBooks(username));
+	}
 
 }

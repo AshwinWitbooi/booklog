@@ -139,6 +139,11 @@ public class BookLogDaoImpl implements BookLogDao {
 			
 			records =  query.getResultList();
 			
+			for(BookEntity be:records) {
+				Hibernate.initialize(be.getAuthors());
+			}
+			
+			
 			session.close();
 
 //		} catch (Exception e) {
