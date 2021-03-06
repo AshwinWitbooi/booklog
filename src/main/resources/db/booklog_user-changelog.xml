@@ -5,28 +5,34 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 	
-	<changeSet id="5" author="ashtech">
+	<changeSet id="6" author="ashtech">
 		<preConditions onFail="MARK_RAN">
 			<not>
-				<tableExists tableName="tx_log"/>
+				<tableExists tableName="booklog_user"/>
 			</not>
 		</preConditions>
-		<createTable tableName="tx_log">
-	          <column name="ID" type="int" autoIncrement="true">
+		<createTable tableName="booklog_user">
+            <column name="BOOKLOG_USER_ID" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="USERNAME" type="varchar(50)">
-             	<constraints nullable="false"/>
-            </column>
-            <column name="ACTION" type="varchar(3)">
-             	<constraints nullable="false"/>
-            </column>
-            <column name="ACTION_RESULT" type="varchar(3)">
-             	<constraints nullable="false"/>
-            </column>
-            <column name="ACTION_DATE" type="timestamp">
+	        <column name="USERNAME" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
-		</createTable> 
-	</changeSet>	
+            <column name="PASSWORD" type="varchar(255)">
+             	<constraints nullable="false"/>
+            </column>
+            <column name="ENABLED" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+		</createTable>
+	</changeSet>
+	<changeSet id="7" author="ashtech">
+    	<createIndex indexName="IDX_USERNAME"  
+	            schemaName="booklog"  
+	            tableName="booklog_user"   
+	            unique="true">  
+	        <column  name="USERNAME"/>  
+    </createIndex> 		
+	</changeSet>
+
 </databaseChangeLog>
