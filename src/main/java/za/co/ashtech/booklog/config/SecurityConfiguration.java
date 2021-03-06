@@ -35,11 +35,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	http
+    	.requiresChannel()
+    	.and()
 		.authorizeRequests()
 			.antMatchers("/booklog/v1/*").hasAnyRole("USER","ADMIN")
 			.antMatchers("/booklog/v1/admin/*").hasRole("ADMIN")
-			.and()
-			.authorizeRequests().anyRequest()
+			.anyRequest()
 			.fullyAuthenticated()
 			.and()
 			.httpBasic()
@@ -54,10 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder delegatingPasswordEncoder() throws NoSuchAlgorithmException {
 
-    	BCryptPasswordEncoder passworEncoder = new BCryptPasswordEncoder(10, SecureRandom.getInstanceStrong());
-
-        return passworEncoder;
-
+    	 return new BCryptPasswordEncoder(10, SecureRandom.getInstanceStrong());
     }
 
     @Bean
