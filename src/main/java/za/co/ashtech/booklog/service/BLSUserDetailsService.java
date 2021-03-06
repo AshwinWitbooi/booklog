@@ -33,8 +33,7 @@ public class BLSUserDetailsService implements UserDetailsService {
 		 }catch (Exception e) {
 			 throw new UsernameNotFoundException(username);
 		}
-		MyUserPrincipal myUser = new MyUserPrincipal(user);
-		return myUser;
+		return new MyUserPrincipal(user);
 	}
 	
 	/* inner class for user details */
