@@ -10,8 +10,6 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import za.co.ashtech.booklog.db.dao.BookLogDaoImpl;
-
 @Configuration
 public class HibernateConfiguration {
 
