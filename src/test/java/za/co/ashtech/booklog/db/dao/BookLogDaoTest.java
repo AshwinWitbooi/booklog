@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -14,10 +16,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import za.co.ashtech.booklog.db.entity.AuthorEntity;
 import za.co.ashtech.booklog.db.entity.BookEntity;
+import za.co.ashtech.booklog.db.entity.BooklogUserEntity;
 import za.co.ashtech.booklog.db.entity.TxLogEntity;
+import za.co.ashtech.booklog.db.entity.UserRoleEntity;
 import za.co.ashtech.booklog.utility.TestDataUtil;
 import org.junit.jupiter.api.MethodOrderer;
 
@@ -28,10 +33,12 @@ import org.junit.jupiter.api.MethodOrderer;
 	@Autowired
 	private BookLogDao dao;
 	private static String isbn =null;
+	private static String username =null;
 	
 	@BeforeAll
 	public static void setUp() {
 		isbn = TestDataUtil.getIsbn();
+		username = TestDataUtil.getUsername();
 	}
 	
 	@BeforeEach
@@ -71,7 +78,7 @@ import org.junit.jupiter.api.MethodOrderer;
 		txLogEntity.setAction("ADD");
 		txLogEntity.setActionDate(new Date());
 		txLogEntity.setActionResult("S");
-		txLogEntity.setUsername("ash@ashtech.co.za");
+		txLogEntity.setUsername(username);
 		
 		dao.persistTx(txLogEntity);
 		
@@ -112,5 +119,32 @@ import org.junit.jupiter.api.MethodOrderer;
 	void getBooks() {		
 		assertNotEquals(null, dao.getBooks());
 	}
+	
+	@Test
+	@Order(6) 
+	void persistUser() throws NoSuchAlgorithmException {		
+		
+		BCryptPasswordEncoder passworEncoder = new BCryptPasswordEncoder(10, SecureRandom.getInstanceStrong()); 
+		
+		BooklogUserEntity user = new BooklogUserEntity();
+		user.setEnabled(new Byte("1"));
+		user.setUsername(username);
+		user.setPassword(passworEncoder.encode("password"));
+		user.setBooklogRoles(new ArrayList<>());
+		UserRoleEntity roleEntity = new UserRoleEntity();
+		roleEntity.setBooklogUser(user);
+		roleEntity.setAuthority("USER");
+		user.getBooklogRoles().add(roleEntity);
+		
+		dao.persistUser(user);
+		
+		assertNotEquals(0,user.getBooklogUserId());
 
+	}
+
+	@Test
+	@Order(7) 
+	void getUser() {		
+		assertNotEquals(null, dao.getUser(username));
+	}
 }

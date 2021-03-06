@@ -14,10 +14,13 @@ import ch.qos.logback.classic.Logger;
 import za.co.ashtech.booklog.db.dao.BookLogDao;
 import za.co.ashtech.booklog.db.entity.AuthorEntity;
 import za.co.ashtech.booklog.db.entity.BookEntity;
+import za.co.ashtech.booklog.db.entity.BooklogUserEntity;
+import za.co.ashtech.booklog.db.entity.UserRoleEntity;
 import za.co.ashtech.booklog.model.Author;
 import za.co.ashtech.booklog.model.Book;
 import za.co.ashtech.booklog.model.Books;
 import za.co.ashtech.booklog.model.Editing;
+import za.co.ashtech.booklog.model.User;
 import za.co.ashtech.booklog.util.BookLogApiException;
 import za.co.ashtech.booklog.util.CONSTANTS;
 
@@ -277,6 +280,33 @@ public class BookLogServiceImpl implements BookLogService {
 		}
 		
 		return books;
+	}
+
+	@Override
+	public void createUser(User user) throws BookLogApiException {
+		BooklogUserEntity userEntity = new BooklogUserEntity();
+		
+		if(user.getPassword().equals(user.getConfirmPassword())) {
+			
+			userEntity.setUsername(user.getUsername());
+			userEntity.setPassword(user.getPassword());
+			userEntity.setEnabled(new Byte("1"));
+			
+			userEntity.setBooklogRoles(new ArrayList<>());
+			UserRoleEntity userRoleEntity = new UserRoleEntity();
+			userRoleEntity.setBooklogUser(userEntity);
+			userRoleEntity.setAuthority("USER");
+			userEntity.getBooklogRoles().add(userRoleEntity);
+			
+			try {
+				dao.persistUser(userEntity);
+			} catch (Exception e) {
+				throw new BookLogApiException(CONSTANTS.ERC008, CONSTANTS.API_ERROR_DESCRIPTION, HttpStatus.INTERNAL_SERVER_ERROR);			
+			}
+			
+		}else{
+			throw new BookLogApiException(CONSTANTS.ERC008, CONSTANTS.INVALID_REQUEST, HttpStatus.BAD_REQUEST);
+		}
 	}
 
 }

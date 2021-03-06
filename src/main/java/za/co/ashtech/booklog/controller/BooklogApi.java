@@ -23,6 +23,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import za.co.ashtech.booklog.model.Book;
 import za.co.ashtech.booklog.model.Books;
 import za.co.ashtech.booklog.model.Editing;
+import za.co.ashtech.booklog.model.User;
 import za.co.ashtech.booklog.util.BookLogApiException;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2021-02-01T20:11:16.872Z[GMT]")
@@ -108,6 +109,21 @@ public interface BooklogApi {
         method = RequestMethod.GET)
     ResponseEntity<Books> getBooks(@Parameter(in = ParameterIn.PATH, description = "Unique user identifier", required=true, schema=@Schema()) @PathVariable("username") String username)throws BookLogApiException;
 
+    @Operation(summary = "create user", description = "Create user on system system", tags={  })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "201", description = "user created"),
+        
+        @ApiResponse(responseCode = "400", description = "invalid input, object invalid"),
+        
+        @ApiResponse(responseCode = "401", description = "authentication failed"),
+        
+        @ApiResponse(responseCode = "409", description = "an existing item already exists"),
+        
+        @ApiResponse(responseCode = "500", description = "error processing request") })
+    @RequestMapping(value = "/v1/admin/user",
+        consumes = { "application/json" }, 
+        method = RequestMethod.POST)
+    ResponseEntity<Void> createUser(@Parameter(in = ParameterIn.DEFAULT, description = "Create user for system", schema=@Schema()) @Valid @RequestBody User body)throws BookLogApiException;
 
 }
 

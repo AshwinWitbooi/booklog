@@ -1,8 +1,8 @@
 package za.co.ashtech.booklog.db.dao;
 
 import java.util.List;
-
 import za.co.ashtech.booklog.db.entity.BookEntity;
+import za.co.ashtech.booklog.db.entity.BooklogUserEntity;
 import za.co.ashtech.booklog.db.entity.TxLogEntity;
 
 public interface BookLogDao {
@@ -13,4 +13,6 @@ public interface BookLogDao {
 	public void deleteBook(BookEntity book);
 	public void persistTx(TxLogEntity tx);
 	public List<BookEntity> getBooks();
+	public void persistUser(BooklogUserEntity user);
+	public BooklogUserEntity getUser(String username);
 }

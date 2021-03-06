@@ -14,12 +14,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import za.co.ashtech.booklog.db.dao.BookLogDao;
 import za.co.ashtech.booklog.model.Author;
 import za.co.ashtech.booklog.model.Book;
 import za.co.ashtech.booklog.model.Editing;
 import za.co.ashtech.booklog.model.Editing.ActionEnum;
+import za.co.ashtech.booklog.model.User;
+import za.co.ashtech.booklog.service.BLSUserDetailsService.MyUserPrincipal;
 import za.co.ashtech.booklog.util.BookLogApiException;
 import za.co.ashtech.booklog.utility.TestDataUtil;
 
@@ -30,13 +33,17 @@ class BookLogServiceTest {
 	@Autowired
 	private BookLogService service;
 	@Autowired
+	private UserDetailsService userDetailsService;
+	@Autowired
 	private BookLogDao dao;
 	
 	private static String isbn =null;
+	private static String username =null;
 	
 	@BeforeAll
 	static void setUp() {
 		isbn = TestDataUtil.getIsbn();
+		username = TestDataUtil.getUsername();
 	}
 	
 	@BeforeEach
@@ -92,8 +99,8 @@ class BookLogServiceTest {
 
 	}
 	
-//	@Test
-//	@Order(4) 
+	@Test
+	@Order(4) 
 	void editAuthorLastname() throws BookLogApiException{
 		Editing editing = new Editing();
 		editing.action(ActionEnum.EAL);
@@ -158,6 +165,25 @@ class BookLogServiceTest {
 	void getBooks() throws BookLogApiException{
 		String username="ashtect@test.co.za";
 		assertNotNull(service.getBooks(username));
+	}
+	
+	@Test
+	@Order(10) 
+	void getUser() throws BookLogApiException{
+		String username="RwbmjQhE@test.co.za";
+		MyUserPrincipal user = (MyUserPrincipal) userDetailsService.loadUserByUsername(username);
+		assertNotNull(user);
+	}
+	
+	@Test
+	@Order(11) 
+	void persistUser() throws BookLogApiException{
+		User user = new User();
+		user.setUsername(username);
+		user.setPassword("password");
+		user.setConfirmPassword("password");
+		
+		service.createUser(user);
 	}
 
 }

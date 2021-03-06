@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import ch.qos.logback.classic.Logger;
 import za.co.ashtech.booklog.db.entity.BookEntity;
+import za.co.ashtech.booklog.db.entity.BooklogUserEntity;
 import za.co.ashtech.booklog.db.entity.TxLogEntity;
 import za.co.ashtech.booklog.util.CONSTANTS;
 
@@ -90,23 +91,16 @@ public class BookLogDaoImpl implements BookLogDao {
 		Session session = sessionFactory.openSession();
 		BookEntity record = null;
 
-//		try {
-			Query<BookEntity> query =  session.createQuery("from BookEntity where isbn=:isbn", BookEntity.class);
-			query.setParameter("isbn", isbn);
-			
-			record =  query.getSingleResult();
-			
-			//initialize lazy load
-			Hibernate.initialize(record.getAuthors());
-			
-			session.close();
-
-//		} catch (Exception e) {
-//			throw e;
-//		} finally {
-//			
-//		}	
+		Query<BookEntity> query =  session.createQuery("from BookEntity where isbn=:isbn", BookEntity.class);
+		query.setParameter("isbn", isbn);
 		
+		record =  query.getSingleResult();
+		
+		//initialize lazy load
+		Hibernate.initialize(record.getAuthors());
+		
+		session.close();
+			
 		return record;
 	}
 
@@ -134,25 +128,55 @@ public class BookLogDaoImpl implements BookLogDao {
 		Session session = sessionFactory.openSession();
 		List<BookEntity> records = null;
 
-//		try {
-			Query<BookEntity> query =  session.createQuery("from BookEntity", BookEntity.class);
+		Query<BookEntity> query =  session.createQuery("from BookEntity", BookEntity.class);
 			
-			records =  query.getResultList();
-			
-			for(BookEntity be:records) {
-				Hibernate.initialize(be.getAuthors());
-			}
-			
-			
-			session.close();
-
-//		} catch (Exception e) {
-//			throw e;
-//		} finally {
-//			
-//		}	
+		records =  query.getResultList();
+		
+		for(BookEntity be:records) {
+			Hibernate.initialize(be.getAuthors());
+		}
+		
+		session.close();
 		
 		return records;
+	}
+
+	@Override
+	public void persistUser(BooklogUserEntity user) {
+		logger.debug(CONSTANTS.APPINFOMARKER,"persistUser");
+		Session session = sessionFactory.openSession();
+		Transaction transaction = session.beginTransaction();
+
+		try {
+			session.save(user);
+
+			transaction.commit();
+
+		} catch (Exception e) {	
+			transaction.rollback();
+			throw e;
+		} finally {			
+			session.close();
+		}
+	}
+
+	@Override
+	public BooklogUserEntity getUser(String username) {
+		logger.debug(CONSTANTS.APPINFOMARKER,"getUser");
+		Session session = sessionFactory.openSession();
+		BooklogUserEntity record = null;
+
+		Query<BooklogUserEntity> query =  session.createQuery("from BooklogUserEntity where username=:username", BooklogUserEntity.class);
+		query.setParameter("username", username);
+		
+		record =  query.getSingleResult();
+		
+		//initialize lazy load
+		Hibernate.initialize(record.getBooklogRoles());
+		
+		session.close();
+			
+		return record;
 
 	}
 
