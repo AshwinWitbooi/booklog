@@ -39,8 +39,8 @@ import za.co.ashtech.booklog.utility.TestDataUtil;
 @WebAppConfiguration
 class BookLogIntegrationTest {
 	
-	private final static String testUsername ="test_user";
-	private final static String testPassword ="test_user";
+	private static final String testUsername ="test_user";
+	private static final String testPassword ="test_user";
 	private static String username =null;
 	@Autowired
 	private BookLogDao dao;
