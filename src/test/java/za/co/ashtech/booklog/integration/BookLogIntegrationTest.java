@@ -1,13 +1,15 @@
 package za.co.ashtech.booklog.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,46 +19,53 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import za.co.ashtech.booklog.db.dao.BookLogDao;
 import za.co.ashtech.booklog.model.Author;
 import za.co.ashtech.booklog.model.Book;
-import za.co.ashtech.booklog.model.Books;
 import za.co.ashtech.booklog.model.Editing;
+import za.co.ashtech.booklog.model.User;
 import za.co.ashtech.booklog.model.Editing.ActionEnum;
 import za.co.ashtech.booklog.utility.TestDataUtil;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest
+@WebAppConfiguration
 class BookLogIntegrationTest {
 	
-	@LocalServerPort
-	private int port;
-	private static final String host = "http://localhost:";
-
-	@Autowired
-	private TestRestTemplate restTemplate;
+	private final static String testUsername ="test_user";
+	private final static String testPassword ="test_user";
+	private static String username =null;
 	@Autowired
 	private BookLogDao dao;
-	
+	@Autowired
+	private WebApplicationContext context;
+	private MockMvc mvc;
 	private static String isbn =null;
 	
 	@BeforeAll
-	static void setUp() {
+	static void setUp() {		
 		isbn = TestDataUtil.getIsbn();
+		username = TestDataUtil.getUsername();
 	}
 	
 	@BeforeEach
-	void validate() {
-		assertNotEquals(0, port);
-		assertNotNull(restTemplate);
+	public void setup() {
+		mvc = MockMvcBuilders
+				.webAppContextSetup(context)
+				.apply(springSecurity())
+				.build();
 	}
-	
+
 	@Test
 	@Order(1)
+	@WithMockUser(username = "test_user", password = "test_user")
 	void createBookTest() throws Exception {
 		
 		Author author = new Author();
@@ -71,68 +80,77 @@ class BookLogIntegrationTest {
 		request.setPublisher("Ashtech Publishing Co");
 		request.setTitle("Your life your terms");
 		
-		String url = host+port+"/booklog/v1/book";
-		
-		this.restTemplate.postForObject(url, request, Void.class);
+		mvc.perform(post("/v1/book")
+		           .contentType(MediaType.APPLICATION_JSON)
+		           .content(TestDataUtil.getJSONString(request)) 
+		           .accept(MediaType.APPLICATION_JSON))
+		           .andExpect(status().isCreated());
 		
 		assertNotNull(dao.getBook(isbn));
 	}
 	
 	@Test
 	@Order(2)
+	@WithMockUser(username = testUsername, password = testPassword)
 	void getBookTest() throws Exception {
 		
-		Map<String,String> uriVariables = new HashMap<>();
-		uriVariables.put("isbn", isbn);
-		
-		String url = host+port+"/booklog/v1/book/{isbn}";
-		
-		assertEquals(isbn,this.restTemplate.getForObject(url, Book.class,uriVariables).getISBN());
+		mvc.perform(get("/v1/book/"+isbn)
+		            .accept(MediaType.APPLICATION_JSON))
+		            .andExpect(status().isOk());
 		
 	}
 	
 	@Test
 	@Order(3)
+	@WithMockUser(username = testUsername, password = testPassword)
 	void updateBookTest() throws Exception {
 		Editing editing = new Editing();
 		editing.action(ActionEnum.EAF);
 		editing.setNewFirstname("Update");
 		editing.setOldFirstname("Ashwin");
 		
-		Map<String,String> uriVariables = new HashMap<>();
-		uriVariables.put("isbn", isbn);
-		
-		String url = host+port+"/booklog/v1/book/update/{isbn}";
-		
-		this.restTemplate.postForObject(url, editing, Void.class,uriVariables);
+		mvc.perform(post("/v1/book/update/"+isbn)
+		           .contentType(MediaType.APPLICATION_JSON)
+		           .content(TestDataUtil.getJSONString(editing)) 
+		           .accept(MediaType.APPLICATION_JSON))
+		           .andExpect(status().isOk());
 
 		assertEquals("Update", dao.getBook(isbn).getAuthors().get(0).getFirstname());
 	}
 	
 	@Test
 	@Order(4)
+	@WithMockUser(username = testUsername, password = testPassword)
 	void deleteBookTest() throws Exception {
 		
-		Map<String,String> uriVariables = new HashMap<>();
-		uriVariables.put("isbn", isbn);
-		
-		String url = host+port+"/booklog/v1/book/delete/{isbn}";
-		
-		this.restTemplate.delete(url,uriVariables);
-
-
+		mvc.perform(delete("/v1/book/delete/"+isbn))
+		           .andExpect(status().isOk());
 	}
 	
 	@Test
 	@Order(5)
+	@WithMockUser(username = testUsername, password = testPassword)
 	void getBooksTest() throws Exception {
 		
-		Map<String,String> uriVariables = new HashMap<>();
-		uriVariables.put("username", "ashtech@test.co.za");
+		mvc.perform(get("/v1/books/"+testUsername)
+	            .accept(MediaType.APPLICATION_JSON))
+	            .andExpect(status().isOk());
+	}
+	
+	@Test
+	@Order(6)
+	@WithMockUser(username = "admin", password = "admin")
+	void createUser() throws Exception {
+		User user = new User();
+		user.setUsername(username);
+		user.setPassword("password");
+		user.setConfirmPassword("password");
 		
-		String url = host+port+"/booklog/v1/books/{username}";
-		
-		assertNotNull(this.restTemplate.getForObject(url,Books.class,uriVariables));
+		mvc.perform(post("/v1/admin/user")
+		           .contentType(MediaType.APPLICATION_JSON)
+		           .content(TestDataUtil.getJSONString(user)) 
+		           .accept(MediaType.APPLICATION_JSON))
+		           .andExpect(status().isCreated());
 
 	}
 
